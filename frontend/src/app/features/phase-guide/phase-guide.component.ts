@@ -119,7 +119,8 @@ export class PhaseGuideComponent {
   /** Coche/décoche une pratique et persiste l'état. */
   toggle(id: string): void {
     const next = new Set(this.checkedIds());
-    next.has(id) ? next.delete(id) : next.add(id);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
     this.checkedIds.set(next);
     this.persist(this.slug(), next);
   }

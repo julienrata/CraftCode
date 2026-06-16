@@ -30,8 +30,8 @@ const tools = [
     description:
       'Comprendre et appliquer les cinq principes SOLID de la conception orientée objet.',
     icon: 'architecture',
-    route: '',
-    available: false,
+    route: '/solid',
+    available: true,
     order: 3,
   },
   {
@@ -40,8 +40,8 @@ const tools = [
     description:
       'Explorer les patrons de conception du Gang of Four avec des exemples concrets.',
     icon: 'extension',
-    route: '',
-    available: false,
+    route: '/design-patterns',
+    available: true,
     order: 4,
   },
 ];

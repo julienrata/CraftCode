@@ -1,0 +1,57 @@
+<app-breadcrumb [items]="breadcrumb" />
+
+<div class="dp-header">
+  <h1>Les Design Patterns</h1>
+  <p class="subtitle">
+    Les 23 patrons de conception du Gang of Four — des solutions éprouvées aux
+    problèmes récurrents de la conception orientée objet, regroupées en trois
+    familles.
+  </p>
+</div>
+
+<!-- Hero : le ton et le « pourquoi » -->
+<section class="hero">
+  <p class="hero__lead">
+    Un design pattern n'est pas un bout de code à copier : c'est un vocabulaire
+    partagé pour résoudre un problème de conception.
+  </p>
+  <p class="hero__body">
+    Formalisés en 1994 par le « Gang of Four », ces patrons décrivent comment
+    organiser classes et objets pour rendre le code plus souple et plus clair.
+    Choisissez un patron ci-dessous pour le découvrir en détail : intention,
+    problème résolu, solution, exemple de code, cas d'usage et pièges.
+  </p>
+</section>
+
+<!-- Hub : les cartes groupées par famille -->
+@for (group of groups; track group.categorie) {
+  <section class="dp-group">
+    <h2 class="dp-group__title">{{ group.categorie }}s</h2>
+    <ul class="patterns">
+      @for (pattern of group.patterns; track pattern.slug) {
+        <li>
+          <a
+            class="pattern-card"
+            [routerLink]="['/design-patterns', pattern.slug]"
+          >
+            <mat-card appearance="outlined" class="pattern-card__inner">
+              <mat-card-content>
+                <div class="pattern-card__top">
+                  <mat-icon class="pattern-card__icon" aria-hidden="true">{{ pattern.icon }}</mat-icon>
+                  <span class="pattern-card__cat">{{ pattern.categorie }}</span>
+                </div>
+                <h3 class="pattern-card__title">{{ pattern.nom }}</h3>
+                <p class="pattern-card__fr">{{ pattern.nomFr }}</p>
+                <p class="pattern-card__def">{{ pattern.intention }}</p>
+                <span class="pattern-card__cta">
+                  Découvrir le patron
+                  <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+                </span>
+              </mat-card-content>
+            </mat-card>
+          </a>
+        </li>
+      }
+    </ul>
+  </section>
+}

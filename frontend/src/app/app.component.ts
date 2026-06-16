@@ -31,5 +31,7 @@ export class AppComponent {
     { label: 'Accueil', link: '/', exact: true },
     { label: 'Checklist Code Review', link: '/code-review' },
     { label: 'Bonnes pratiques', link: '/bonnes-pratiques' },
+    { label: 'Principes SOLID', link: '/solid' },
+    { label: 'Design Patterns', link: '/design-patterns' },
   ];
 }

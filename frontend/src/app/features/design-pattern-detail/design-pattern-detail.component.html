@@ -1,0 +1,103 @@
+@if (pattern(); as p) {
+  <app-breadcrumb [items]="breadcrumb()" />
+
+  <header class="dpd-header">
+    <span class="dpd-header__icon" aria-hidden="true">
+      <mat-icon>{{ p.icon }}</mat-icon>
+    </span>
+    <div class="dpd-header__title">
+      <h1>{{ p.nom }}</h1>
+      <p class="dpd-header__fr">{{ p.nomFr }} · {{ p.categorie }}</p>
+    </div>
+  </header>
+
+  <p class="dpd-intention">{{ p.intention }}</p>
+
+  <!-- Le problème résolu -->
+  <section class="dpd-block">
+    <h2 class="dpd-block__title">
+      <mat-icon aria-hidden="true">report_problem</mat-icon>
+      Le problème résolu
+    </h2>
+    <p>{{ p.probleme }}</p>
+  </section>
+
+  <!-- La solution -->
+  <section class="dpd-block">
+    <h2 class="dpd-block__title">
+      <mat-icon aria-hidden="true">lightbulb</mat-icon>
+      La solution
+    </h2>
+    <p>{{ p.solution }}</p>
+  </section>
+
+  <!-- Exemple de code -->
+  <section class="dpd-block">
+    <h2 class="dpd-block__title">
+      <mat-icon aria-hidden="true">code</mat-icon>
+      En pratique
+    </h2>
+    <mat-card class="example" appearance="outlined">
+      <mat-card-content>
+        <p class="example__legende">{{ p.exemple.legende }}</p>
+        <pre class="code"><code>{{ p.exemple.code }}</code></pre>
+      </mat-card-content>
+    </mat-card>
+  </section>
+
+  <!-- Cas d'usage -->
+  <section class="dpd-block">
+    <h2 class="dpd-block__title">
+      <mat-icon aria-hidden="true">check_circle</mat-icon>
+      Cas d'usage
+    </h2>
+    <ul class="dpd-list">
+      @for (cas of p.casUsage; track cas) {
+        <li>{{ cas }}</li>
+      }
+    </ul>
+  </section>
+
+  <!-- Pièges / anti-patterns -->
+  <section class="dpd-block">
+    <h2 class="dpd-block__title">
+      <mat-icon aria-hidden="true">warning</mat-icon>
+      Pièges et anti-patterns
+    </h2>
+    <ul class="dpd-list">
+      @for (piege of p.pieges; track piege) {
+        <li>{{ piege }}</li>
+      }
+    </ul>
+  </section>
+
+  <!-- Parcours séquentiel : patron précédent / suivant -->
+  <nav class="pattern-nav" aria-label="Navigation entre les patrons">
+    @if (prev(); as pr) {
+      <a
+        class="pattern-nav__link pattern-nav__link--prev"
+        [routerLink]="['/design-patterns', pr.slug]"
+        [attr.aria-label]="'Patron précédent : ' + pr.nom"
+      >
+        <mat-icon aria-hidden="true">arrow_back</mat-icon>
+        <span class="pattern-nav__meta">
+          <span class="pattern-nav__dir">Précédent</span>
+          <span class="pattern-nav__titre">{{ pr.nom }}</span>
+        </span>
+      </a>
+    }
+    @if (next(); as nx) {
+      <a
+        class="pattern-nav__link pattern-nav__link--next"
+        [routerLink]="['/design-patterns', nx.slug]"
+        [attr.aria-label]="'Patron suivant : ' + nx.nom"
+      >
+        <span class="pattern-nav__meta">
+          <span class="pattern-nav__dir">Suivant</span>
+          <span class="pattern-nav__titre">{{ nx.nom }}</span>
+        </span>
+        <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+      </a>
+    }
+  </nav>
+}

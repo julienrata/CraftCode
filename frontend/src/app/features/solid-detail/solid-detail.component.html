@@ -1,0 +1,110 @@
+@if (principle(); as p) {
+  <app-breadcrumb [items]="breadcrumb()" />
+
+  <header class="sd-header">
+    <span class="sd-header__letter" aria-hidden="true">{{ p.lettre }}</span>
+    <div class="sd-header__title">
+      <mat-icon class="sd-header__icon" aria-hidden="true">{{ p.icon }}</mat-icon>
+      <h1>{{ p.nomFr }}</h1>
+      <p class="sd-header__en">{{ p.nomEn }}</p>
+    </div>
+  </header>
+
+  <p class="sd-definition">{{ p.definition }}</p>
+
+  <!-- Le problème résolu -->
+  <section class="sd-block">
+    <h2 class="sd-block__title">
+      <mat-icon aria-hidden="true">report_problem</mat-icon>
+      Le problème résolu
+    </h2>
+    <p>{{ p.probleme }}</p>
+  </section>
+
+  <!-- Pourquoi ce principe -->
+  <section class="sd-block">
+    <h2 class="sd-block__title">
+      <mat-icon aria-hidden="true">lightbulb</mat-icon>
+      Pourquoi l'appliquer
+    </h2>
+    <ul class="sd-list">
+      @for (point of p.pourquoi; track point) {
+        <li>{{ point }}</li>
+      }
+    </ul>
+  </section>
+
+  <!-- Exemples de code à éviter / à préférer -->
+  <section class="sd-block">
+    <h2 class="sd-block__title">
+      <mat-icon aria-hidden="true">code</mat-icon>
+      En pratique
+    </h2>
+    <div class="examples">
+      <mat-card class="example example--avoid" appearance="outlined">
+        <mat-card-content>
+          <h3 class="example__title">
+            <mat-icon aria-hidden="true">cancel</mat-icon>
+            À éviter
+          </h3>
+          <p class="example__legende">{{ p.exempleAvant.legende }}</p>
+          <pre class="code"><code>{{ p.exempleAvant.code }}</code></pre>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="example example--prefer" appearance="outlined">
+        <mat-card-content>
+          <h3 class="example__title">
+            <mat-icon aria-hidden="true">check_circle</mat-icon>
+            À préférer
+          </h3>
+          <p class="example__legende">{{ p.exempleApres.legende }}</p>
+          <pre class="code"><code>{{ p.exempleApres.code }}</code></pre>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- Comment le respecter -->
+  <section class="sd-block">
+    <h2 class="sd-block__title">
+      <mat-icon aria-hidden="true">checklist</mat-icon>
+      Comment le respecter
+    </h2>
+    <ul class="sd-list">
+      @for (conseil of p.commentRespecter; track conseil) {
+        <li>{{ conseil }}</li>
+      }
+    </ul>
+  </section>
+
+  <!-- Parcours séquentiel : principe précédent / suivant -->
+  <nav class="principle-nav" aria-label="Navigation entre les principes">
+    @if (prev(); as pr) {
+      <a
+        class="principle-nav__link principle-nav__link--prev"
+        [routerLink]="['/solid', pr.slug]"
+        [attr.aria-label]="'Principe précédent : ' + pr.nomFr"
+      >
+        <mat-icon aria-hidden="true">arrow_back</mat-icon>
+        <span class="principle-nav__meta">
+          <span class="principle-nav__dir">Précédent</span>
+          <span class="principle-nav__titre">{{ pr.nomFr }}</span>
+        </span>
+      </a>
+    }
+    @if (next(); as nx) {
+      <a
+        class="principle-nav__link principle-nav__link--next"
+        [routerLink]="['/solid', nx.slug]"
+        [attr.aria-label]="'Principe suivant : ' + nx.nomFr"
+      >
+        <span class="principle-nav__meta">
+          <span class="principle-nav__dir">Suivant</span>
+          <span class="principle-nav__titre">{{ nx.nomFr }}</span>
+        </span>
+        <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+      </a>
+    }
+  </nav>
+}

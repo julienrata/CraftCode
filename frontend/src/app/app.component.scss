@@ -1,20 +1,30 @@
 .app-toolbar {
-  // Dégradé coloré pour une barre claire et accueillante
-  background: linear-gradient(90deg, #4f46e5 0%, #06b6d4 100%);
-  color: #fff;
+  // Barre « papier » sobre et chaleureuse, ancrée par un filet cuivre.
+  background: var(--cc-surface);
+  color: var(--cc-ink);
+  border-bottom: 1px solid var(--cc-border);
+  box-shadow: var(--cc-shadow-1);
   position: sticky;
   top: 0;
   z-index: 10;
+  gap: var(--cc-space-3);
 }
 
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #fff;
+  gap: var(--cc-space-2);
+  color: var(--cc-ink);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1.25rem;
+  letter-spacing: -0.01em;
+  padding: var(--cc-space-1) var(--cc-space-2);
+  border-radius: var(--cc-radius-sm);
+
+  mat-icon {
+    color: var(--cc-primary);
+  }
 }
 
 .spacer {
@@ -22,11 +32,12 @@
 }
 
 .tagline {
-  font-size: 0.9rem;
-  opacity: 0.9;
+  font-size: var(--cc-fs-small);
+  color: var(--cc-ink-soft);
 }
 
-@media (max-width: 599px) {
+// La tagline se masque sur petit écran (≤480px).
+@media (max-width: 480px) {
   .tagline {
     display: none;
   }
@@ -34,6 +45,8 @@
 
 .app-content {
   display: block;
-  min-height: calc(100vh - 64px);
-  background: #f7f9fc;
+  min-height: calc(100vh - var(--cc-toolbar-h));
+  background: var(--cc-bg);
+  // Pas d'anneau de focus visuel sur le conteneur ciblé par le skip link.
+  outline: none;
 }

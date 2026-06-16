@@ -2,17 +2,25 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  border-radius: 16px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  border-radius: var(--cc-radius-md);
+  transition: transform var(--cc-transition), box-shadow var(--cc-transition),
+    border-color var(--cc-transition);
 
   mat-card-content {
     flex: 1 1 auto;
   }
 }
 
-.tool-card:not(.tool-card--disabled):hover {
+// Survol & focus clavier (focus-within) : même retour visuel, cuivre.
+.tool-card:not(.tool-card--disabled):hover,
+.tool-card:not(.tool-card--disabled):focus-within {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.18);
+  box-shadow: var(--cc-shadow-2);
+  border-color: var(--cc-primary);
+}
+
+.tool-card:not(.tool-card--disabled):active {
+  transform: translateY(-1px);
 }
 
 .tool-card--disabled {
@@ -23,22 +31,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #4f46e5, #06b6d4);
-  color: #fff;
+  background: var(--cc-primary);
+  color: var(--cc-on-primary);
 
   mat-icon {
-    color: #fff;
+    color: var(--cc-on-primary);
   }
 }
 
 .tool-card__badge {
   margin-left: auto;
   align-self: flex-start;
-  background: #fff3cd;
-  color: #8a6d3b;
+  background: var(--cc-surface-2);
+  color: var(--cc-ink-soft);
+  border: 1px solid var(--cc-border);
   font-size: 0.72rem;
   font-weight: 600;
-  padding: 0.15rem 0.55rem;
+  padding: var(--cc-space-1) var(--cc-space-3);
   border-radius: 999px;
   white-space: nowrap;
 }

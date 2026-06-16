@@ -18,5 +18,19 @@ export const routes: Routes = [
         (m) => m.CodeReviewComponent
       ),
   },
+  {
+    path: 'bonnes-pratiques',
+    loadComponent: () =>
+      import('./features/best-practices/best-practices.component').then(
+        (m) => m.BestPracticesComponent
+      ),
+  },
+  {
+    path: 'bonnes-pratiques/:phase',
+    loadComponent: () =>
+      import('./features/phase-guide/phase-guide.component').then(
+        (m) => m.PhaseGuideComponent
+      ),
+  },
   { path: '**', redirectTo: '' },
 ];

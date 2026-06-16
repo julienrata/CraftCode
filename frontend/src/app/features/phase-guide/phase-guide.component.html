@@ -1,0 +1,56 @@
+@if (section(); as phase) {
+  <div class="pg-header">
+    <a mat-button routerLink="/bonnes-pratiques" class="back-link">
+      <mat-icon>arrow_back</mat-icon>
+      Aperçu
+    </a>
+    <div class="pg-header__title">
+      <mat-icon class="pg-header__icon">{{ phase.icon }}</mat-icon>
+      <h1>{{ phase.titre }}</h1>
+      <span class="badge" [class]="'badge--' + phase.roleKey">{{ phase.role }}</span>
+    </div>
+    <p class="subtitle">
+      Lisez chaque pratique et cochez ce qui est fait — votre progression est
+      sauvegardée sur cet appareil.
+    </p>
+  </div>
+
+  <!-- Compteur de progression -->
+  <div class="progress-panel">
+    <div class="progress-panel__top">
+      <span class="progress-panel__count">{{ checkedCount() }}/{{ total() }} cochés</span>
+      <button mat-button color="warn" (click)="reset()" [disabled]="checkedCount() === 0">
+        <mat-icon>restart_alt</mat-icon>
+        Réinitialiser
+      </button>
+    </div>
+    <mat-progress-bar mode="determinate" [value]="progress()"></mat-progress-bar>
+  </div>
+
+  <!-- Pratiques : lecture + case à cocher -->
+  <div class="cards">
+    @for (pratique of phase.pratiques; track pratique.id) {
+      <mat-card
+        class="practice"
+        [class.practice--done]="isChecked(pratique.id)"
+        appearance="outlined"
+      >
+        <mat-card-content>
+          <div class="practice__top">
+            <mat-checkbox
+              [checked]="isChecked(pratique.id)"
+              (change)="toggle(pratique.id)"
+            ></mat-checkbox>
+            <mat-icon class="practice__icon">{{ pratique.icon }}</mat-icon>
+            <h3 class="practice__title">{{ pratique.titre }}</h3>
+          </div>
+          <p class="practice__accroche">{{ pratique.accroche }}</p>
+          <p class="practice__why">
+            <mat-icon class="practice__why-icon">lightbulb</mat-icon>
+            <span>{{ pratique.pourquoi }}</span>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+}

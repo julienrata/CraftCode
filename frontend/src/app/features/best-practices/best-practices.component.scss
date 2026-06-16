@@ -1,0 +1,202 @@
+:host {
+  display: block;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--cc-space-5) var(--cc-space-4) var(--cc-space-8);
+}
+
+.bp-header {
+  margin-bottom: var(--cc-space-5);
+
+  .back-link {
+    margin-bottom: var(--cc-space-2);
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--cc-ink);
+    font-size: clamp(1.6rem, 4vw, 2.25rem);
+    font-weight: 700;
+    line-height: var(--cc-lh-tight);
+  }
+
+  .subtitle {
+    margin: var(--cc-space-2) 0 0;
+    max-width: var(--cc-measure);
+    color: var(--cc-ink-soft);
+    line-height: var(--cc-lh-body);
+  }
+}
+
+/* Hero — donne le ton (établi cuivré) */
+.hero {
+  background: linear-gradient(135deg, var(--cc-primary) 0%, var(--cc-primary-hover) 100%);
+  color: var(--cc-on-primary);
+  border-radius: var(--cc-radius-lg);
+  padding: var(--cc-space-6);
+  margin-bottom: var(--cc-space-7);
+  box-shadow: var(--cc-shadow-2);
+
+  &__lead {
+    margin: 0 0 var(--cc-space-3);
+    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+    font-weight: 600;
+    line-height: var(--cc-lh-tight);
+  }
+
+  &__body {
+    margin: 0;
+    max-width: var(--cc-measure);
+    color: rgba(255, 255, 255, 0.92);
+    line-height: var(--cc-lh-body);
+  }
+}
+
+/* Une étape du parcours */
+.step {
+  margin-bottom: var(--cc-space-7);
+
+  &__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--cc-space-3);
+    padding-bottom: var(--cc-space-3);
+    margin-bottom: var(--cc-space-4);
+    border-bottom: 2px solid var(--cc-border);
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: var(--cc-space-3);
+
+    h2 {
+      margin: 0;
+      color: var(--cc-ink);
+      font-size: clamp(1.2rem, 2.8vw, 1.55rem);
+      font-weight: 600;
+    }
+  }
+
+  &__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--cc-primary-tint);
+    color: var(--cc-primary);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  &__icon {
+    color: var(--cc-accent);
+  }
+}
+
+/* Badge de rôle — texte + teinte (jamais la couleur seule) */
+.badge {
+  display: inline-block;
+  padding: var(--cc-space-1) var(--cc-space-3);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+
+  &--equipe {
+    background: var(--cc-role-equipe-tint);
+    color: var(--cc-role-equipe);
+  }
+
+  &--auteur {
+    background: var(--cc-role-auteur-tint);
+    color: var(--cc-role-auteur);
+  }
+
+  &--relecteur {
+    background: var(--cc-role-relecteur-tint);
+    color: var(--cc-role-relecteur);
+  }
+
+  &--mixte {
+    background: var(--cc-role-mixte-tint);
+    color: var(--cc-role-mixte);
+  }
+}
+
+/* Lien vers la page-support */
+.support-link {
+  margin-bottom: var(--cc-space-4);
+}
+
+/* Grille de cartes-pratiques */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--cc-space-4);
+}
+
+.practice {
+  border-radius: var(--cc-radius-md);
+  transition: transform var(--cc-transition), box-shadow var(--cc-transition);
+
+  &:hover,
+  &:focus-within {
+    transform: translateY(-2px);
+    box-shadow: var(--cc-shadow-1);
+  }
+
+  &__top {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--cc-space-2);
+    margin-bottom: var(--cc-space-2);
+  }
+
+  &__icon {
+    color: var(--cc-primary);
+    flex-shrink: 0;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--cc-fs-h3);
+    font-weight: 600;
+    color: var(--cc-ink);
+    line-height: var(--cc-lh-tight);
+  }
+
+  &__accroche {
+    margin: 0 0 var(--cc-space-3);
+    color: var(--cc-ink-soft);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  &__why {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--cc-space-2);
+    margin: 0;
+    padding-top: var(--cc-space-3);
+    border-top: 1px solid var(--cc-border);
+    color: var(--cc-ink-soft);
+    font-size: var(--cc-fs-small);
+    line-height: 1.45;
+    font-style: italic;
+  }
+
+  &__why-icon {
+    font-size: 1.05rem;
+    width: 1.05rem;
+    height: 1.05rem;
+    color: var(--cc-accent);
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+}

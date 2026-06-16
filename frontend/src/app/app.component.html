@@ -1,12 +1,14 @@
-<mat-toolbar class="app-toolbar">
-  <a routerLink="/" class="brand">
-    <mat-icon>handyman</mat-icon>
+<a class="skip-link" href="#main-content">Aller au contenu</a>
+
+<mat-toolbar class="app-toolbar" role="banner">
+  <a routerLink="/" class="brand" aria-label="CraftCode — accueil">
+    <mat-icon aria-hidden="true">handyman</mat-icon>
     <span>CraftCode</span>
   </a>
   <span class="spacer"></span>
   <span class="tagline">Boîte à outils du développeur</span>
 </mat-toolbar>
 
-<main class="app-content">
+<main id="main-content" class="app-content" tabindex="-1">
   <router-outlet></router-outlet>
 </main>

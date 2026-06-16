@@ -6,6 +6,10 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { CODE_REVIEW_SECTIONS } from '../../core/data/code-review-practices';
 import { Section } from '../../core/models/code-review-practice.model';
+import {
+  BreadcrumbComponent,
+  BreadcrumbItem,
+} from '../../shared/components/breadcrumb/breadcrumb.component';
 
 /**
  * Page pédagogique « Les bonnes pratiques de la Code Review ».
@@ -16,11 +20,23 @@ import { Section } from '../../core/models/code-review-practice.model';
  */
 @Component({
   selector: 'app-best-practices',
-  imports: [RouterLink, MatCardModule, MatIconModule, MatButtonModule],
+  imports: [
+    RouterLink,
+    BreadcrumbComponent,
+    MatCardModule,
+    MatIconModule,
+    MatButtonModule,
+  ],
   templateUrl: './best-practices.component.html',
   styleUrl: './best-practices.component.scss',
 })
 export class BestPracticesComponent {
+  /** Fil d'Ariane : Accueil › Bonnes pratiques (page courante). */
+  readonly breadcrumb: BreadcrumbItem[] = [
+    { label: 'Accueil', link: '/' },
+    { label: 'Bonnes pratiques' },
+  ];
+
   /** Les 8 sections, dans l'ordre des dossiers (0 → 7). */
   readonly sections: Section[] = CODE_REVIEW_SECTIONS;
 }

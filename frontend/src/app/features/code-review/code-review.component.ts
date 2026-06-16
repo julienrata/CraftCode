@@ -1,5 +1,4 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,6 +11,10 @@ import {
   ChecklistItem,
   ChecklistGroup,
 } from '../../core/models/checklist-item.model';
+import {
+  BreadcrumbComponent,
+  BreadcrumbItem,
+} from '../../shared/components/breadcrumb/breadcrumb.component';
 
 /** Clé de persistance de l'état coché dans le localStorage. */
 const STORAGE_KEY = 'craftcode.code-review.checked';
@@ -24,7 +27,7 @@ const STORAGE_KEY = 'craftcode.code-review.checked';
 @Component({
   selector: 'app-code-review',
   imports: [
-    RouterLink,
+    BreadcrumbComponent,
     MatCheckboxModule,
     MatCardModule,
     MatIconModule,
@@ -37,6 +40,12 @@ const STORAGE_KEY = 'craftcode.code-review.checked';
 })
 export class CodeReviewComponent implements OnInit {
   private service = inject(CodeReviewService);
+
+  /** Fil d'Ariane : Accueil › Checklist Code Review (page courante). */
+  readonly breadcrumb: BreadcrumbItem[] = [
+    { label: 'Accueil', link: '/' },
+    { label: 'Checklist Code Review' },
+  ];
 
   readonly loading = signal(true);
   readonly error = signal(false);

@@ -15,6 +15,16 @@ const tools = [
     order: 1,
   },
   {
+    slug: 'bonnes-pratiques',
+    name: 'Les bonnes pratiques de la Code Review',
+    description:
+      'Un parcours en 8 étapes — avant, pendant et après la revue — pour faire de chaque relecture un moment qui élève le code et l’équipe.',
+    icon: 'menu_book',
+    route: '/bonnes-pratiques',
+    available: true,
+    order: 2,
+  },
+  {
     slug: 'solid',
     name: 'Principes SOLID',
     description:
@@ -22,7 +32,7 @@ const tools = [
     icon: 'architecture',
     route: '',
     available: false,
-    order: 2,
+    order: 3,
   },
   {
     slug: 'design-patterns',
@@ -32,7 +42,7 @@ const tools = [
     icon: 'extension',
     route: '',
     available: false,
-    order: 3,
+    order: 4,
   },
 ];
 

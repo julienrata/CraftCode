@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
@@ -8,6 +9,10 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { CODE_REVIEW_SECTIONS } from '../../core/data/code-review-practices';
 import { Section } from '../../core/models/code-review-practice.model';
+import {
+  BreadcrumbComponent,
+  BreadcrumbItem,
+} from '../../shared/components/breadcrumb/breadcrumb.component';
 
 /** Table de correspondance slug de phase → `numero` de section. */
 const SLUG_TO_NUMERO: Record<string, number> = {
@@ -17,6 +22,19 @@ const SLUG_TO_NUMERO: Record<string, number> = {
   'pendant-la-relecture': 4,
   'apres-la-relecture-relecteur': 6,
 };
+
+/**
+ * Ordre du parcours des phases-support — dérivé de l'unique source de vérité
+ * SLUG_TO_NUMERO (ordre d'insertion). Sert au précédent/suivant : aucune
+ * seconde liste à maintenir.
+ */
+const PHASE_SLUGS = Object.keys(SLUG_TO_NUMERO);
+
+/** Une phase voisine pour le parcours séquentiel (précédent/suivant). */
+interface PhaseLink {
+  slug: string;
+  titre: string;
+}
 
 /**
  * Page-support d'une phase de revue : lecture (titre + accroche + « pourquoi »)
@@ -30,6 +48,7 @@ const SLUG_TO_NUMERO: Record<string, number> = {
   selector: 'app-phase-guide',
   imports: [
     RouterLink,
+    BreadcrumbComponent,
     MatCheckboxModule,
     MatCardModule,
     MatIconModule,
@@ -43,14 +62,14 @@ export class PhaseGuideComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
-  /** Slug de phase lu dans l'URL (vide si absent). */
-  private readonly slug = this.route.snapshot.paramMap.get('phase') ?? '';
+  /** Slug de phase courant, suivi de façon réactive (cf. constructeur). */
+  private readonly slug = signal('');
 
   /** Section de la phase courante (undefined si slug inconnu → redirection). */
-  readonly section = signal<Section | undefined>(this.resolveSection());
+  readonly section = signal<Section | undefined>(undefined);
 
   /** Ensemble des ids de pratiques cochées (source de vérité de l'UI). */
-  private readonly checkedIds = signal<Set<string>>(this.loadChecked());
+  private readonly checkedIds = signal<Set<string>>(new Set());
 
   /** Nombre total de pratiques de la phase. */
   readonly total = computed(() => this.section()?.pratiques.length ?? 0);
@@ -64,10 +83,33 @@ export class PhaseGuideComponent {
     return t === 0 ? 0 : Math.round((this.checkedCount() / t) * 100);
   });
 
+  /** Fil d'Ariane : Accueil › Bonnes pratiques › {titre de la phase}. */
+  readonly breadcrumb = computed<BreadcrumbItem[]>(() => [
+    { label: 'Accueil', link: '/' },
+    { label: 'Bonnes pratiques', link: '/bonnes-pratiques' },
+    { label: this.section()?.titre ?? '' },
+  ]);
+
+  /** Phase précédente / suivante du parcours (undefined aux extrémités). */
+  readonly prev = computed<PhaseLink | undefined>(() => this.neighbor(-1));
+  readonly next = computed<PhaseLink | undefined>(() => this.neighbor(1));
+
   constructor() {
-    if (!this.section()) {
-      this.router.navigate(['/bonnes-pratiques']);
-    }
+    // Réactif au paramètre `:phase` : couvre le chargement initial ET la
+    // navigation précédent/suivant entre routes sœurs (Angular réutilise alors
+    // le composant). Comportement préservé : redirection si slug inconnu,
+    // clé localStorage par phase, persistance identique.
+    this.route.paramMap.pipe(takeUntilDestroyed()).subscribe((params) => {
+      const slug = params.get('phase') ?? '';
+      const section = this.resolveSection(slug);
+      if (!section) {
+        this.router.navigate(['/bonnes-pratiques']);
+        return;
+      }
+      this.slug.set(slug);
+      this.section.set(section);
+      this.checkedIds.set(this.loadChecked(slug));
+    });
   }
 
   isChecked(id: string): boolean {
@@ -79,36 +121,48 @@ export class PhaseGuideComponent {
     const next = new Set(this.checkedIds());
     next.has(id) ? next.delete(id) : next.add(id);
     this.checkedIds.set(next);
-    this.persist(next);
+    this.persist(this.slug(), next);
   }
 
   /** Décoche tout (réinitialise la phase). */
   reset(): void {
     const empty = new Set<string>();
     this.checkedIds.set(empty);
-    this.persist(empty);
+    this.persist(this.slug(), empty);
   }
 
-  private resolveSection(): Section | undefined {
-    const numero = SLUG_TO_NUMERO[this.slug];
+  /** Phase voisine dans PHASE_SLUGS (delta -1 = précédent, +1 = suivant). */
+  private neighbor(delta: number): PhaseLink | undefined {
+    const index = PHASE_SLUGS.indexOf(this.slug());
+    if (index === -1) return undefined;
+    const slug = PHASE_SLUGS[index + delta];
+    if (!slug) return undefined;
+    const numero = SLUG_TO_NUMERO[slug];
+    const titre =
+      CODE_REVIEW_SECTIONS.find((s) => s.numero === numero)?.titre ?? '';
+    return { slug, titre };
+  }
+
+  private resolveSection(slug: string): Section | undefined {
+    const numero = SLUG_TO_NUMERO[slug];
     if (numero === undefined) return undefined;
     return CODE_REVIEW_SECTIONS.find((s) => s.numero === numero);
   }
 
-  private storageKey(): string {
-    return `craftcode.phase.${this.slug}.checked`;
+  private storageKey(slug: string): string {
+    return `craftcode.phase.${slug}.checked`;
   }
 
-  private loadChecked(): Set<string> {
+  private loadChecked(slug: string): Set<string> {
     try {
-      const raw = localStorage.getItem(this.storageKey());
+      const raw = localStorage.getItem(this.storageKey(slug));
       return raw ? new Set<string>(JSON.parse(raw)) : new Set<string>();
     } catch {
       return new Set<string>();
     }
   }
 
-  private persist(ids: Set<string>): void {
-    localStorage.setItem(this.storageKey(), JSON.stringify(Array.from(ids)));
+  private persist(slug: string, ids: Set<string>): void {
+    localStorage.setItem(this.storageKey(slug), JSON.stringify(Array.from(ids)));
   }
 }

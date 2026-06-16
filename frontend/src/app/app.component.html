@@ -1,12 +1,27 @@
-<mat-toolbar class="app-toolbar">
-  <a routerLink="/" class="brand">
-    <mat-icon>handyman</mat-icon>
+<a class="skip-link" href="#main-content">Aller au contenu</a>
+
+<mat-toolbar class="app-toolbar" role="banner">
+  <a routerLink="/" class="brand" aria-label="CraftCode — accueil">
+    <mat-icon aria-hidden="true">handyman</mat-icon>
     <span>CraftCode</span>
   </a>
-  <span class="spacer"></span>
+
+  <nav class="app-nav" aria-label="Navigation principale">
+    @for (item of navLinks; track item.link) {
+      <a
+        class="app-nav__link"
+        [routerLink]="item.link"
+        routerLinkActive="app-nav__link--active"
+        [routerLinkActiveOptions]="{ exact: !!item.exact }"
+        #rla="routerLinkActive"
+        [attr.aria-current]="rla.isActive ? 'page' : null"
+      >{{ item.label }}</a>
+    }
+  </nav>
+
   <span class="tagline">Boîte à outils du développeur</span>
 </mat-toolbar>
 
-<main class="app-content">
+<main id="main-content" class="app-content" tabindex="-1">
   <router-outlet></router-outlet>
 </main>

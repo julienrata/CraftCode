@@ -1,4 +1,175 @@
-/* You can add global styles to this file, and also import other style files */
+/* =============================================================================
+   CraftCode — Design system (atelier / artisan du code)
+   Source unique de vérité : tokens CSS + thème Material personnalisé + bases.
+   Aucune couleur en dur ailleurs : tout passe par les variables --cc-* / --mat-sys-*.
+   ========================================================================== */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+:root {
+  /* ---- Couleurs de marque (établi / cuivre / papier) -------------------- */
+  --cc-bg: #FAF9F7;
+  --cc-surface: #FFFFFF;
+  --cc-surface-2: #F4F1EC;
+  --cc-border: #E7E2DB;
+  --cc-ink: #1C1917;
+  --cc-ink-soft: #57534E;
+
+  --cc-primary: #B45309;
+  --cc-primary-hover: #92400E;
+  --cc-on-primary: #FFFFFF;
+
+  --cc-accent: #0F766E;        /* patine — actions secondaires */
+  --cc-success: #15803D;
+  --cc-warn: #B91C1C;
+
+  /* Teintes douces dérivées (conteneurs, surfaces actives) */
+  --cc-primary-tint: #FBEEDD;  /* fond cuivre très clair */
+  --cc-accent-tint: #E2F1EF;   /* fond patine très clair */
+
+  /* ---- Badges de rôle (texte + teinte, jamais la couleur seule) --------- */
+  --cc-role-equipe: #475569;       /* ardoise */
+  --cc-role-auteur: #B45309;
+  --cc-role-relecteur: #0F766E;
+  --cc-role-mixte: #7C3AED;
+  --cc-role-equipe-tint: #EEF1F5;
+  --cc-role-auteur-tint: #FBEEDD;
+  --cc-role-relecteur-tint: #E2F1EF;
+  --cc-role-mixte-tint: #F1ECFC;
+
+  /* ---- Typographie ------------------------------------------------------ */
+  --cc-font: Roboto, "Helvetica Neue", system-ui, -apple-system, sans-serif;
+  --cc-fs-h1: clamp(1.8rem, 4vw, 2.6rem);
+  --cc-fs-h2: 1.4rem;
+  --cc-fs-h3: 1.1rem;
+  --cc-fs-body: 1rem;
+  --cc-fs-small: 0.875rem;
+  --cc-lh-body: 1.6;
+  --cc-lh-tight: 1.3;
+  --cc-measure: 70ch;          /* largeur de lecture max pour la prose */
+
+  /* ---- Espacement (base 4px) ------------------------------------------- */
+  --cc-space-1: 4px;
+  --cc-space-2: 8px;
+  --cc-space-3: 12px;
+  --cc-space-4: 16px;
+  --cc-space-5: 24px;
+  --cc-space-6: 32px;
+  --cc-space-7: 48px;
+  --cc-space-8: 64px;
+
+  /* ---- Rayons ----------------------------------------------------------- */
+  --cc-radius-sm: 8px;
+  --cc-radius-md: 14px;
+  --cc-radius-lg: 22px;
+
+  /* ---- Ombres (douces, diffuses) --------------------------------------- */
+  --cc-shadow-1: 0 1px 2px rgba(28, 25, 23, 0.05), 0 2px 8px rgba(28, 25, 23, 0.06);
+  --cc-shadow-2: 0 10px 30px rgba(28, 25, 23, 0.12);
+
+  /* ---- Mouvement -------------------------------------------------------- */
+  --cc-transition: 160ms ease;
+
+  /* ---- Layout ----------------------------------------------------------- */
+  --cc-toolbar-h: 64px;
+
+  /* =========================================================================
+     Thème Angular Material — on remappe les jetons système M3 (--mat-sys-*)
+     vers les tokens de marque. Défini sur :root (spécificité supérieure au
+     thème pré-construit posé sur `html`) → mat-card / mat-button / mat-checkbox
+     / mat-progress-bar / mat-toolbar héritent de la marque.
+     ====================================================================== */
+  --mat-sys-primary: var(--cc-primary);
+  --mat-sys-on-primary: var(--cc-on-primary);
+  --mat-sys-primary-container: var(--cc-primary-tint);
+  --mat-sys-on-primary-container: #6B3000;
+
+  --mat-sys-secondary: var(--cc-accent);
+  --mat-sys-on-secondary: #FFFFFF;
+  --mat-sys-secondary-container: var(--cc-accent-tint);
+  --mat-sys-on-secondary-container: #06403B;
+
+  --mat-sys-tertiary: var(--cc-accent);
+  --mat-sys-on-tertiary: #FFFFFF;
+  --mat-sys-tertiary-container: var(--cc-accent-tint);
+  --mat-sys-on-tertiary-container: #06403B;
+
+  --mat-sys-error: var(--cc-warn);
+  --mat-sys-on-error: #FFFFFF;
+
+  --mat-sys-background: var(--cc-bg);
+  --mat-sys-on-background: var(--cc-ink);
+  --mat-sys-surface: var(--cc-surface);
+  --mat-sys-surface-dim: var(--cc-surface-2);
+  --mat-sys-surface-bright: var(--cc-surface);
+  --mat-sys-surface-container-lowest: var(--cc-surface);
+  --mat-sys-surface-container-low: var(--cc-surface);
+  --mat-sys-surface-container: var(--cc-surface-2);
+  --mat-sys-surface-container-high: var(--cc-surface-2);
+  --mat-sys-surface-container-highest: var(--cc-surface-2);
+  --mat-sys-surface-variant: var(--cc-surface-2);
+  --mat-sys-on-surface: var(--cc-ink);
+  --mat-sys-on-surface-variant: var(--cc-ink-soft);
+  --mat-sys-outline: var(--cc-border);
+  --mat-sys-outline-variant: var(--cc-border);
+
+  /* Coins arrondis des composants Material alignés sur l'échelle de rayons */
+  --mat-sys-corner-small: var(--cc-radius-sm);
+  --mat-sys-corner-medium: var(--cc-radius-md);
+  --mat-sys-corner-large: var(--cc-radius-lg);
+}
+
+/* ============================ Bases globales ============================= */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--cc-font);
+  font-size: var(--cc-fs-body);
+  line-height: var(--cc-lh-body);
+  color: var(--cc-ink);
+  background: var(--cc-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Focus visible cohérent sur TOUT élément interactif — jamais d'outline retiré
+   sans remplacement. */
+:focus-visible {
+  outline: 2px solid var(--cc-primary);
+  outline-offset: 2px;
+  border-radius: var(--cc-radius-sm);
+}
+
+/* Lien d'évitement « Aller au contenu » — visible au focus clavier. */
+.skip-link {
+  position: absolute;
+  left: var(--cc-space-3);
+  top: -64px;
+  z-index: 1000;
+  padding: var(--cc-space-2) var(--cc-space-4);
+  background: var(--cc-primary);
+  color: var(--cc-on-primary);
+  border-radius: var(--cc-radius-sm);
+  font-weight: 600;
+  text-decoration: none;
+  transition: top var(--cc-transition);
+}
+
+.skip-link:focus {
+  top: var(--cc-space-3);
+}
+
+/* Respect des préférences de mouvement réduit. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

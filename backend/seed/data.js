@@ -15,14 +15,24 @@ const tools = [
     order: 1,
   },
   {
+    slug: 'bonnes-pratiques',
+    name: 'Les bonnes pratiques de la Code Review',
+    description:
+      'Un parcours en 8 étapes — avant, pendant et après la revue — pour faire de chaque relecture un moment qui élève le code et l’équipe.',
+    icon: 'menu_book',
+    route: '/bonnes-pratiques',
+    available: true,
+    order: 2,
+  },
+  {
     slug: 'solid',
     name: 'Principes SOLID',
     description:
       'Comprendre et appliquer les cinq principes SOLID de la conception orientée objet.',
     icon: 'architecture',
-    route: '',
-    available: false,
-    order: 2,
+    route: '/solid',
+    available: true,
+    order: 3,
   },
   {
     slug: 'design-patterns',
@@ -30,9 +40,9 @@ const tools = [
     description:
       'Explorer les patrons de conception du Gang of Four avec des exemples concrets.',
     icon: 'extension',
-    route: '',
-    available: false,
-    order: 3,
+    route: '/design-patterns',
+    available: true,
+    order: 4,
   },
 ];
 

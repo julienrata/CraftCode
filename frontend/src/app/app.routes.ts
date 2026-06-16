@@ -18,5 +18,45 @@ export const routes: Routes = [
         (m) => m.CodeReviewComponent
       ),
   },
+  {
+    path: 'bonnes-pratiques',
+    loadComponent: () =>
+      import('./features/best-practices/best-practices.component').then(
+        (m) => m.BestPracticesComponent
+      ),
+  },
+  {
+    path: 'bonnes-pratiques/:phase',
+    loadComponent: () =>
+      import('./features/phase-guide/phase-guide.component').then(
+        (m) => m.PhaseGuideComponent
+      ),
+  },
+  {
+    path: 'solid',
+    loadComponent: () =>
+      import('./features/solid/solid.component').then((m) => m.SolidComponent),
+  },
+  {
+    path: 'solid/:principe',
+    loadComponent: () =>
+      import('./features/solid-detail/solid-detail.component').then(
+        (m) => m.SolidDetailComponent
+      ),
+  },
+  {
+    path: 'design-patterns',
+    loadComponent: () =>
+      import('./features/design-patterns/design-patterns.component').then(
+        (m) => m.DesignPatternsComponent
+      ),
+  },
+  {
+    path: 'design-patterns/:pattern',
+    loadComponent: () =>
+      import(
+        './features/design-pattern-detail/design-pattern-detail.component'
+      ).then((m) => m.DesignPatternDetailComponent),
+  },
   { path: '**', redirectTo: '' },
 ];

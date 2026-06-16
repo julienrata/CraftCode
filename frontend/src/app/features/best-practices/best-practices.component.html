@@ -1,0 +1,93 @@
+<app-breadcrumb [items]="breadcrumb" />
+
+<div class="bp-header">
+  <h1>Les bonnes pratiques de la Code Review</h1>
+  <p class="subtitle">
+    Un parcours en 8 étapes — avant, pendant et après la revue — pour faire de
+    chaque relecture un moment qui élève le code et l'équipe.
+  </p>
+</div>
+
+<!-- Hero : le ton et le « pourquoi » -->
+<section class="hero">
+  <p class="hero__lead">
+    Une bonne revue ne traque pas les fautes : elle fait grandir le code et
+    ceux qui l'écrivent.
+  </p>
+  <p class="hero__body">
+    La code review est bien plus qu'un dernier filet de sécurité avant la
+    fusion. C'est le moment où la connaissance circule, où la qualité se
+    négocie collectivement et où la confiance se construit. Bien menée, elle
+    attrape les problèmes tôt, diffuse les bonnes pratiques et transforme un
+    travail individuel en réussite d'équipe. Voici comment en tirer le meilleur,
+    étape par étape.
+  </p>
+</section>
+
+<!-- Le fil chronologique des 8 sections -->
+@for (section of sections; track section.numero) {
+  <section class="step">
+    <header class="step__head">
+      <div class="step__title">
+        <span class="step__num">{{ section.numero }}</span>
+        <mat-icon class="step__icon">{{ section.icon }}</mat-icon>
+        <h2>{{ section.titre }}</h2>
+      </div>
+      <span class="badge" [class]="'badge--' + section.roleKey">
+        {{ section.role }}
+      </span>
+    </header>
+
+    <!-- Lien vers la page-support (phases 1, 2, 3, 4 et 6 uniquement) -->
+    @switch (section.numero) {
+      @case (1) {
+        <a mat-stroked-button class="support-link" routerLink="/bonnes-pratiques/pendant-le-developpement">
+          <mat-icon>checklist</mat-icon>
+          Ouvrir comme support
+        </a>
+      }
+      @case (2) {
+        <a mat-stroked-button class="support-link" routerLink="/bonnes-pratiques/apres-le-developpement">
+          <mat-icon>checklist</mat-icon>
+          Ouvrir comme support
+        </a>
+      }
+      @case (3) {
+        <a mat-stroked-button class="support-link" routerLink="/bonnes-pratiques/avant-la-relecture">
+          <mat-icon>checklist</mat-icon>
+          Ouvrir comme support
+        </a>
+      }
+      @case (4) {
+        <a mat-stroked-button class="support-link" routerLink="/bonnes-pratiques/pendant-la-relecture">
+          <mat-icon>checklist</mat-icon>
+          Ouvrir comme support
+        </a>
+      }
+      @case (6) {
+        <a mat-stroked-button class="support-link" routerLink="/bonnes-pratiques/apres-la-relecture-relecteur">
+          <mat-icon>checklist</mat-icon>
+          Ouvrir comme support
+        </a>
+      }
+    }
+
+    <div class="cards">
+      @for (pratique of section.pratiques; track pratique.titre) {
+        <mat-card class="practice" appearance="outlined">
+          <mat-card-content>
+            <div class="practice__top">
+              <mat-icon class="practice__icon">{{ pratique.icon }}</mat-icon>
+              <h3 class="practice__title">{{ pratique.titre }}</h3>
+            </div>
+            <p class="practice__accroche">{{ pratique.accroche }}</p>
+            <p class="practice__why">
+              <mat-icon class="practice__why-icon">lightbulb</mat-icon>
+              <span>{{ pratique.pourquoi }}</span>
+            </p>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  </section>
+}

@@ -1,0 +1,219 @@
+:host {
+  display: block;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--cc-space-5) var(--cc-space-4) var(--cc-space-8);
+}
+
+.sd-header {
+  display: flex;
+  align-items: center;
+  gap: var(--cc-space-4);
+  margin-bottom: var(--cc-space-5);
+
+  &__letter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+    border-radius: var(--cc-radius-md);
+    background: var(--cc-primary);
+    color: var(--cc-on-primary);
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+
+  &__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--cc-space-2) var(--cc-space-3);
+
+    h1 {
+      margin: 0;
+      color: var(--cc-ink);
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      font-weight: 700;
+      line-height: var(--cc-lh-tight);
+    }
+  }
+
+  &__icon {
+    color: var(--cc-accent);
+  }
+
+  &__en {
+    width: 100%;
+    margin: 0;
+    color: var(--cc-ink-soft);
+    font-size: var(--cc-fs-small);
+    font-style: italic;
+  }
+}
+
+.sd-definition {
+  margin: 0 0 var(--cc-space-6);
+  max-width: var(--cc-measure);
+  color: var(--cc-ink);
+  font-size: 1.05rem;
+  line-height: var(--cc-lh-body);
+}
+
+.sd-block {
+  margin-bottom: var(--cc-space-6);
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: var(--cc-space-2);
+    margin: 0 0 var(--cc-space-3);
+    font-size: clamp(1.2rem, 2.8vw, 1.4rem);
+    font-weight: 600;
+    color: var(--cc-ink);
+
+    mat-icon {
+      color: var(--cc-accent);
+    }
+  }
+
+  > p {
+    margin: 0;
+    max-width: var(--cc-measure);
+    color: var(--cc-ink-soft);
+    line-height: var(--cc-lh-body);
+  }
+}
+
+.sd-list {
+  margin: 0;
+  padding-left: var(--cc-space-5);
+  max-width: var(--cc-measure);
+  color: var(--cc-ink-soft);
+  line-height: var(--cc-lh-body);
+
+  li {
+    margin-bottom: var(--cc-space-2);
+  }
+}
+
+/* Exemples « à éviter / à préférer » avec blocs de code */
+.examples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--cc-space-4);
+}
+
+.example {
+  border-radius: var(--cc-radius-md);
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: var(--cc-space-2);
+    margin: 0 0 var(--cc-space-2);
+    font-size: var(--cc-fs-h3);
+    font-weight: 600;
+  }
+
+  &__legende {
+    margin: 0 0 var(--cc-space-3);
+    color: var(--cc-ink-soft);
+    font-size: var(--cc-fs-small);
+    font-style: italic;
+  }
+
+  // Indices doublés (icône + couleur de bord), jamais la couleur seule.
+  &--avoid {
+    border-left: 4px solid var(--cc-warn);
+
+    .example__title {
+      color: var(--cc-warn);
+    }
+  }
+
+  &--prefer {
+    border-left: 4px solid var(--cc-success);
+
+    .example__title {
+      color: var(--cc-success);
+    }
+  }
+}
+
+.code {
+  margin: 0;
+  padding: var(--cc-space-4);
+  background: var(--cc-surface-2);
+  border: 1px solid var(--cc-border);
+  border-radius: var(--cc-radius-sm);
+  color: var(--cc-ink);
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "Courier New", monospace;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  overflow-x: auto;
+  white-space: pre;
+  tab-size: 2;
+}
+
+/* Parcours séquentiel précédent / suivant */
+.principle-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--cc-space-3);
+  margin-top: var(--cc-space-7);
+  padding-top: var(--cc-space-4);
+  border-top: 1px solid var(--cc-border);
+}
+
+.principle-nav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cc-space-2);
+  min-height: 44px; // cible tactile
+  max-width: 100%;
+  padding: var(--cc-space-2) var(--cc-space-4);
+  border: 1px solid var(--cc-border);
+  border-radius: var(--cc-radius-md);
+  background: var(--cc-surface);
+  color: var(--cc-ink);
+  text-decoration: none;
+  transition: border-color var(--cc-transition), box-shadow var(--cc-transition);
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--cc-primary);
+    box-shadow: var(--cc-shadow-1);
+  }
+
+  &--next {
+    margin-left: auto;
+    text-align: right;
+  }
+
+  mat-icon {
+    color: var(--cc-primary);
+    flex-shrink: 0;
+  }
+}
+
+.principle-nav__meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.principle-nav__dir {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--cc-ink-soft);
+}
+
+.principle-nav__titre {
+  font-weight: 600;
+  line-height: var(--cc-lh-tight);
+}

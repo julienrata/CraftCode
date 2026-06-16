@@ -1,0 +1,84 @@
+@if (section(); as phase) {
+  <app-breadcrumb [items]="breadcrumb()" />
+
+  <div class="pg-header">
+    <div class="pg-header__title">
+      <mat-icon class="pg-header__icon">{{ phase.icon }}</mat-icon>
+      <h1>{{ phase.titre }}</h1>
+      <span class="badge" [class]="'badge--' + phase.roleKey">{{ phase.role }}</span>
+    </div>
+    <p class="subtitle">
+      Lisez chaque pratique et cochez ce qui est fait — votre progression est
+      sauvegardée sur cet appareil.
+    </p>
+  </div>
+
+  <!-- Compteur de progression -->
+  <div class="progress-panel">
+    <div class="progress-panel__top">
+      <span class="progress-panel__count">{{ checkedCount() }}/{{ total() }} cochés</span>
+      <button mat-button color="warn" (click)="reset()" [disabled]="checkedCount() === 0">
+        <mat-icon>restart_alt</mat-icon>
+        Réinitialiser
+      </button>
+    </div>
+    <mat-progress-bar mode="determinate" [value]="progress()"></mat-progress-bar>
+  </div>
+
+  <!-- Pratiques : lecture + case à cocher -->
+  <div class="cards">
+    @for (pratique of phase.pratiques; track pratique.id) {
+      <mat-card
+        class="practice"
+        [class.practice--done]="isChecked(pratique.id)"
+        appearance="outlined"
+      >
+        <mat-card-content>
+          <div class="practice__top">
+            <mat-checkbox
+              [checked]="isChecked(pratique.id)"
+              (change)="toggle(pratique.id)"
+            ></mat-checkbox>
+            <mat-icon class="practice__icon">{{ pratique.icon }}</mat-icon>
+            <h3 class="practice__title">{{ pratique.titre }}</h3>
+          </div>
+          <p class="practice__accroche">{{ pratique.accroche }}</p>
+          <p class="practice__why">
+            <mat-icon class="practice__why-icon">lightbulb</mat-icon>
+            <span>{{ pratique.pourquoi }}</span>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+
+  <!-- Parcours séquentiel : phase précédente / suivante -->
+  <nav class="phase-nav" aria-label="Navigation entre les phases">
+    @if (prev(); as p) {
+      <a
+        class="phase-nav__link phase-nav__link--prev"
+        [routerLink]="['/bonnes-pratiques', p.slug]"
+        [attr.aria-label]="'Phase précédente : ' + p.titre"
+      >
+        <mat-icon aria-hidden="true">arrow_back</mat-icon>
+        <span class="phase-nav__meta">
+          <span class="phase-nav__dir">Précédent</span>
+          <span class="phase-nav__titre">{{ p.titre }}</span>
+        </span>
+      </a>
+    }
+    @if (next(); as n) {
+      <a
+        class="phase-nav__link phase-nav__link--next"
+        [routerLink]="['/bonnes-pratiques', n.slug]"
+        [attr.aria-label]="'Phase suivante : ' + n.titre"
+      >
+        <span class="phase-nav__meta">
+          <span class="phase-nav__dir">Suivant</span>
+          <span class="phase-nav__titre">{{ n.titre }}</span>
+        </span>
+        <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+      </a>
+    }
+  </nav>
+}

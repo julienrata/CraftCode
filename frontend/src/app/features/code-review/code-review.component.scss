@@ -2,60 +2,60 @@
   display: block;
   max-width: 860px;
   margin: 0 auto;
-  padding: 1.5rem 1.25rem 3rem;
+  padding: var(--cc-space-5) var(--cc-space-4) var(--cc-space-8);
 }
 
 .cr-header {
-  margin-bottom: 1.5rem;
-
-  .back-link {
-    margin-bottom: 0.5rem;
-  }
+  margin-bottom: var(--cc-space-5);
 
   h1 {
     margin: 0;
-    color: #1f2937;
+    color: var(--cc-ink);
     font-size: clamp(1.5rem, 3.5vw, 2rem);
+    font-weight: 700;
+    line-height: var(--cc-lh-tight);
   }
 
   .subtitle {
-    margin: 0.25rem 0 0;
-    color: #5b6472;
+    margin: var(--cc-space-1) 0 0;
+    max-width: var(--cc-measure);
+    color: var(--cc-ink-soft);
   }
 }
 
 .progress-panel {
   position: sticky;
-  top: 64px;
+  top: calc(var(--cc-toolbar-h) + var(--cc-space-2));
   z-index: 5;
-  background: #ffffff;
-  border: 1px solid #e5e9f0;
-  border-radius: 12px;
-  padding: 0.9rem 1rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  background: var(--cc-surface);
+  border: 1px solid var(--cc-border);
+  border-radius: var(--cc-radius-md);
+  padding: var(--cc-space-3) var(--cc-space-4);
+  margin-bottom: var(--cc-space-5);
+  box-shadow: var(--cc-shadow-1);
 
   &__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 0.6rem;
+    gap: var(--cc-space-3);
+    margin-bottom: var(--cc-space-3);
   }
 
   &__count {
     font-weight: 600;
-    color: #4f46e5;
+    color: var(--cc-primary);
   }
 }
 
 .category-card {
-  border-radius: 14px;
-  margin-bottom: 1.25rem;
+  border-radius: var(--cc-radius-md);
+  margin-bottom: var(--cc-space-4);
 }
 
 .check-item {
-  padding: 0.6rem 0;
-  border-bottom: 1px solid #f0f2f6;
+  padding: var(--cc-space-3) 0;
+  border-bottom: 1px solid var(--cc-border);
 
   &:last-child {
     border-bottom: none;
@@ -63,18 +63,19 @@
 
   &__label {
     font-weight: 500;
+    color: var(--cc-ink);
   }
 
   &__desc {
-    margin: 0.2rem 0 0 2rem;
-    color: #6b7280;
-    font-size: 0.88rem;
+    margin: var(--cc-space-1) 0 0 var(--cc-space-6);
+    color: var(--cc-ink-soft);
+    font-size: var(--cc-fs-small);
   }
 
   &--done {
     .check-item__label {
       text-decoration: line-through;
-      color: #9aa1ad;
+      color: var(--cc-ink-soft);
     }
   }
 }

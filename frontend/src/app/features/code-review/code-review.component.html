@@ -1,0 +1,52 @@
+<div class="cr-header">
+  <a mat-button routerLink="/" class="back-link">
+    <mat-icon>arrow_back</mat-icon>
+    Accueil
+  </a>
+  <h1>Checklist Code Review</h1>
+  <p class="subtitle">Les bonnes pratiques à vérifier avant de valider une revue de code.</p>
+</div>
+
+@if (loading()) {
+  <div class="state">
+    <mat-spinner diameter="48"></mat-spinner>
+  </div>
+} @else if (error()) {
+  <div class="state state--error">
+    <p>Impossible de charger la checklist. Vérifie que l'API est démarrée.</p>
+  </div>
+} @else {
+  <!-- Compteur de progression -->
+  <div class="progress-panel">
+    <div class="progress-panel__top">
+      <span class="progress-panel__count">{{ checkedCount() }}/{{ total() }} cochés</span>
+      <button mat-button color="warn" (click)="reset()" [disabled]="checkedCount() === 0">
+        <mat-icon>restart_alt</mat-icon>
+        Réinitialiser
+      </button>
+    </div>
+    <mat-progress-bar mode="determinate" [value]="progress()"></mat-progress-bar>
+  </div>
+
+  <!-- Items groupés par catégorie -->
+  @for (group of groups(); track group.category) {
+    <mat-card class="category-card" appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>{{ group.category }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        @for (item of group.items; track item._id) {
+          <div class="check-item" [class.check-item--done]="isChecked(item._id)">
+            <mat-checkbox
+              [checked]="isChecked(item._id)"
+              (change)="toggle(item._id)"
+            >
+              <span class="check-item__label">{{ item.label }}</span>
+            </mat-checkbox>
+            <p class="check-item__desc">{{ item.description }}</p>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  }
+}

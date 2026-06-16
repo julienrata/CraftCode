@@ -1,0 +1,39 @@
+.app-toolbar {
+  // Dégradé coloré pour une barre claire et accueillante
+  background: linear-gradient(90deg, #4f46e5 0%, #06b6d4 100%);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.tagline {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+@media (max-width: 599px) {
+  .tagline {
+    display: none;
+  }
+}
+
+.app-content {
+  display: block;
+  min-height: calc(100vh - 64px);
+  background: #f7f9fc;
+}

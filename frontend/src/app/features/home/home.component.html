@@ -1,0 +1,20 @@
+<section class="hero">
+  <h1>Vos outils de développeur, au même endroit</h1>
+  <p>Des outils pédagogiques pour écrire et relire du meilleur code.</p>
+</section>
+
+@if (loading()) {
+  <div class="state">
+    <mat-spinner diameter="48"></mat-spinner>
+  </div>
+} @else if (error()) {
+  <div class="state state--error">
+    <p>Impossible de charger les outils. Vérifie que l'API est démarrée.</p>
+  </div>
+} @else {
+  <div class="tools-grid">
+    @for (tool of tools(); track tool._id) {
+      <app-tool-card [tool]="tool"></app-tool-card>
+    }
+  </div>
+}

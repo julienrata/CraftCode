@@ -1,0 +1,13 @@
+{
+  "comment": "Serveurs MCP partagés du projet. Opt-in : Claude Code demande confirmation avant d'activer un serveur la première fois. Le serveur mongodb permet à Claude d'inspecter la base réelle (collections tools/checklist) au lieu de raisonner à l'aveugle. Adapter MDB_MCP_CONNECTION_STRING à votre instance locale (défaut: mongodb://127.0.0.1:27017/craftcode, cf. backend/.env).",
+  "mcpServers": {
+    "mongodb": {
+      "command": "npx",
+      "args": ["-y", "mongodb-mcp-server"],
+      "env": {
+        "MDB_MCP_CONNECTION_STRING": "mongodb://127.0.0.1:27017/craftcode",
+        "MDB_MCP_READ_ONLY": "true"
+      }
+    }
+  }
+}

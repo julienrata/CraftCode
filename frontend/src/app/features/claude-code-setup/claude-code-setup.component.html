@@ -24,7 +24,7 @@
 </section>
 
 <!-- Hub : une carte cliquable par sujet -->
-<ul class="topics">
+<ul class="topics cc-stagger">
   @for (topic of topics; track topic.slug) {
     <li>
       <a class="topic-card" [routerLink]="['/claude-code-setup', topic.slug]">

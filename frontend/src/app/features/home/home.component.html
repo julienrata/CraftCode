@@ -12,7 +12,7 @@
     <p>Impossible de charger les outils. Vérifie que l'API est démarrée.</p>
   </div>
 } @else {
-  <div class="tools-grid">
+  <div class="tools-grid cc-stagger">
     @for (tool of tools(); track tool._id) {
       <app-tool-card [tool]="tool"></app-tool-card>
     }

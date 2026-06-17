@@ -3,6 +3,8 @@
   max-width: 960px;
   margin: 0 auto;
   padding: var(--cc-space-5) var(--cc-space-4) var(--cc-space-8);
+  // Entrée de page : apparition fluide à chaque navigation.
+  animation: cc-rise var(--cc-dur) var(--cc-ease-smooth) both;
 }
 
 .pg-header {
@@ -39,7 +41,7 @@
 .badge {
   display: inline-block;
   padding: var(--cc-space-1) var(--cc-space-3);
-  border-radius: 999px;
+  border-radius: var(--cc-radius-pill);
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -97,16 +99,20 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--cc-space-4);
+  // Apparition en cascade : utilitaire `.cc-stagger` (styles.scss), posé sur
+  // ce conteneur dans le template.
 }
 
 .practice {
   border-radius: var(--cc-radius-md);
-  transition: transform var(--cc-transition), box-shadow var(--cc-transition);
+  transition:
+    transform var(--cc-transition-bounce),
+    box-shadow var(--cc-transition);
 
   &:hover,
   &:focus-within {
-    transform: translateY(-2px);
-    box-shadow: var(--cc-shadow-1);
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: var(--cc-shadow-2);
   }
 
   &__top {
@@ -190,13 +196,16 @@
   background: var(--cc-surface);
   color: var(--cc-ink);
   text-decoration: none;
-  transition: border-color var(--cc-transition), box-shadow var(--cc-transition),
-    transform var(--cc-transition);
+  transition:
+    border-color var(--cc-transition),
+    box-shadow var(--cc-transition),
+    transform var(--cc-transition-bounce);
 
   &:hover,
   &:focus-visible {
     border-color: var(--cc-primary);
-    box-shadow: var(--cc-shadow-1);
+    box-shadow: var(--cc-shadow-2);
+    transform: translateY(-3px);
   }
 
   // Le suivant reste collé à droite même quand le précédent est absent.

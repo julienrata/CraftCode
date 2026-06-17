@@ -15,23 +15,27 @@
     changement.
   </p>
   <p class="hero__body">
-    Popularisés par Robert C. Martin, ces cinq principes guident la façon dont on
-    découpe les responsabilités et organise les dépendances. Choisissez un
+    Popularisés par Robert C. Martin, ces cinq principes guident la façon dont
+    on découpe les responsabilités et organise les dépendances. Choisissez un
     principe ci-dessous pour le découvrir en détail : définition, problème
     résolu, exemples de code à éviter puis à préférer, et comment l'appliquer.
   </p>
 </section>
 
 <!-- Hub : une carte cliquable par principe -->
-<ul class="principles">
+<ul class="principles cc-stagger">
   @for (principle of principles; track principle.slug) {
     <li>
       <a class="principle-card" [routerLink]="['/solid', principle.slug]">
         <mat-card appearance="outlined" class="principle-card__inner">
           <mat-card-content>
             <div class="principle-card__top">
-              <span class="principle-card__letter" aria-hidden="true">{{ principle.lettre }}</span>
-              <mat-icon class="principle-card__icon" aria-hidden="true">{{ principle.icon }}</mat-icon>
+              <span class="principle-card__letter" aria-hidden="true">{{
+                principle.lettre
+              }}</span>
+              <mat-icon class="principle-card__icon" aria-hidden="true">{{
+                principle.icon
+              }}</mat-icon>
             </div>
             <h2 class="principle-card__title">{{ principle.nomFr }}</h2>
             <p class="principle-card__en">{{ principle.nomEn }}</p>

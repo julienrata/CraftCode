@@ -3,6 +3,8 @@
   max-width: 960px;
   margin: 0 auto;
   padding: var(--cc-space-5) var(--cc-space-4) var(--cc-space-8);
+  // Entrée de page : apparition fluide à chaque navigation.
+  animation: cc-rise var(--cc-dur) var(--cc-ease-smooth) both;
 }
 
 .ccd-header {
@@ -130,12 +132,14 @@
   text-decoration: none;
   transition:
     border-color var(--cc-transition),
-    box-shadow var(--cc-transition);
+    box-shadow var(--cc-transition),
+    transform var(--cc-transition-bounce);
 
   &:hover,
   &:focus-visible {
     border-color: var(--cc-primary);
-    box-shadow: var(--cc-shadow-1);
+    box-shadow: var(--cc-shadow-2);
+    transform: translateY(-3px);
   }
 
   &--next {

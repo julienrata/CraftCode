@@ -3,6 +3,8 @@
   max-width: 960px;
   margin: 0 auto;
   padding: var(--cc-space-5) var(--cc-space-4) var(--cc-space-8);
+  // Entrée de page : apparition fluide à chaque navigation.
+  animation: cc-rise var(--cc-dur) var(--cc-ease-smooth) both;
 }
 
 .solid-header {
@@ -24,9 +26,9 @@
   }
 }
 
-/* Hero — donne le ton (établi cuivré) */
+/* Hero — donne le ton festif (framboise → violet) */
 .hero {
-  background: linear-gradient(135deg, var(--cc-primary) 0%, var(--cc-primary-hover) 100%);
+  background: var(--cc-gradient-festive);
   color: var(--cc-on-primary);
   border-radius: var(--cc-radius-lg);
   padding: var(--cc-space-6);
@@ -56,6 +58,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--cc-space-4);
+  // Apparition en cascade : utilitaire `.cc-stagger` (styles.scss), posé sur
+  // ce conteneur dans le template (cible les `<li>`, enfants directs).
 }
 
 .principle-card {
@@ -68,15 +72,23 @@
   &__inner {
     height: 100%;
     border-radius: var(--cc-radius-md);
-    transition: transform var(--cc-transition), box-shadow var(--cc-transition),
+    transition:
+      transform var(--cc-transition-bounce),
+      box-shadow var(--cc-transition),
       border-color var(--cc-transition);
   }
 
   &:hover &__inner,
   &:focus-visible &__inner {
-    transform: translateY(-2px);
-    box-shadow: var(--cc-shadow-1);
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: var(--cc-shadow-2);
     border-color: var(--cc-primary);
+  }
+
+  // La lettre du principe « pétille » au survol.
+  &:hover &__letter,
+  &:focus-visible &__letter {
+    transform: rotate(-6deg) scale(1.08);
   }
 
   &__top {
@@ -93,10 +105,12 @@
     width: 2.75rem;
     height: 2.75rem;
     border-radius: var(--cc-radius-md);
-    background: var(--cc-primary);
+    background: var(--cc-gradient-festive);
     color: var(--cc-on-primary);
     font-size: 1.5rem;
     font-weight: 700;
+    box-shadow: var(--cc-shadow-glow);
+    transition: transform var(--cc-transition-bounce);
   }
 
   &__icon {

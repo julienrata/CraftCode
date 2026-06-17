@@ -4,11 +4,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ToolService } from '../../core/services/tool.service';
 import { Tool } from '../../core/models/tool.model';
 import { ToolCardComponent } from '../../shared/components/tool-card/tool-card.component';
+import { ConfettiComponent } from '../../shared/components/confetti/confetti.component';
 
 /** Page d'accueil : liste les outils du site récupérés via GET /api/tools. */
 @Component({
   selector: 'app-home',
-  imports: [MatProgressSpinnerModule, ToolCardComponent],
+  imports: [MatProgressSpinnerModule, ToolCardComponent, ConfettiComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

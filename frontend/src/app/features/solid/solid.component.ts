@@ -9,6 +9,7 @@ import {
   BreadcrumbComponent,
   BreadcrumbItem,
 } from '../../shared/components/breadcrumb/breadcrumb.component';
+import { ConfettiComponent } from '../../shared/components/confetti/confetti.component';
 
 /**
  * Page pédagogique « Principes SOLID ».
@@ -19,7 +20,13 @@ import {
  */
 @Component({
   selector: 'app-solid',
-  imports: [RouterLink, BreadcrumbComponent, MatCardModule, MatIconModule],
+  imports: [
+    RouterLink,
+    BreadcrumbComponent,
+    ConfettiComponent,
+    MatCardModule,
+    MatIconModule,
+  ],
   templateUrl: './solid.component.html',
   styleUrl: './solid.component.scss',
 })

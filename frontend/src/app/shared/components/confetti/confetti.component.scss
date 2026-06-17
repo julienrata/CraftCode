@@ -1,0 +1,76 @@
+// Calque positionné derrière le contenu du héros (qui doit être un contexte
+// d'empilement : `position: relative; z-index: 0`).
+:host {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: block;
+  pointer-events: none;
+}
+
+.confetti__svg {
+  width: 100%;
+  height: 100%;
+}
+
+// Apparition en cascade : un « pop » (scale, sans toucher l'opacité — on
+// préserve ainsi la translucidité de la variante sombre). Décalage croissant.
+.confetti__bit {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cc-pop var(--cc-dur) var(--cc-ease-bounce) both;
+}
+
+@for $i from 1 through 8 {
+  .confetti__bit--#{$i} {
+    animation-delay: calc(var(--cc-stagger) * #{$i - 1});
+  }
+}
+
+// Variante claire (accueil, fond doux) : multicolore de marque.
+.confetti__bit--1 {
+  fill: var(--cc-primary);
+}
+.confetti__bit--2 {
+  fill: var(--cc-role-auteur);
+}
+.confetti__bit--3 {
+  fill: var(--cc-accent);
+}
+.confetti__bit--4 {
+  fill: var(--cc-accent);
+}
+.confetti__bit--5 {
+  fill: var(--cc-role-relecteur);
+}
+.confetti__bit--6 {
+  fill: var(--cc-primary);
+}
+.confetti__bit--7 {
+  fill: var(--cc-success);
+}
+.confetti__bit--8 {
+  fill: var(--cc-role-auteur);
+}
+
+// Variante sombre (héros des hubs, dégradé festif) : confettis clairs et
+// translucides, lisibles sur le dégradé sans voler la vedette au texte.
+:host(.confetti--dark) {
+  .confetti__bit {
+    fill: var(--cc-on-primary);
+  }
+  .confetti__bit--1,
+  .confetti__bit--6 {
+    opacity: 0.8;
+  }
+  .confetti__bit--2,
+  .confetti__bit--5,
+  .confetti__bit--8 {
+    opacity: 0.55;
+  }
+  .confetti__bit--3,
+  .confetti__bit--4,
+  .confetti__bit--7 {
+    opacity: 0.4;
+  }
+}

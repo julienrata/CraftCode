@@ -9,6 +9,7 @@ import {
   BreadcrumbComponent,
   BreadcrumbItem,
 } from '../../shared/components/breadcrumb/breadcrumb.component';
+import { ConfettiComponent } from '../../shared/components/confetti/confetti.component';
 
 /**
  * Page pédagogique « Mettre en place Claude Code ».
@@ -20,7 +21,13 @@ import {
  */
 @Component({
   selector: 'app-claude-code-setup',
-  imports: [RouterLink, BreadcrumbComponent, MatCardModule, MatIconModule],
+  imports: [
+    RouterLink,
+    BreadcrumbComponent,
+    ConfettiComponent,
+    MatCardModule,
+    MatIconModule,
+  ],
   templateUrl: './claude-code-setup.component.html',
   styleUrl: './claude-code-setup.component.scss',
 })

@@ -28,6 +28,9 @@
 
 /* Hero — donne le ton festif (framboise → violet) */
 .hero {
+  position: relative;
+  z-index: 0; // contexte d'empilement pour les confettis décoratifs
+  overflow: hidden;
   background: var(--cc-gradient-festive);
   color: var(--cc-on-primary);
   border-radius: var(--cc-radius-lg);

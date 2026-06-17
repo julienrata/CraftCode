@@ -10,6 +10,7 @@ import {
   BreadcrumbComponent,
   BreadcrumbItem,
 } from '../../shared/components/breadcrumb/breadcrumb.component';
+import { ConfettiComponent } from '../../shared/components/confetti/confetti.component';
 
 /**
  * Page pédagogique « Les bonnes pratiques de la Code Review ».
@@ -23,6 +24,7 @@ import {
   imports: [
     RouterLink,
     BreadcrumbComponent,
+    ConfettiComponent,
     MatCardModule,
     MatIconModule,
     MatButtonModule,

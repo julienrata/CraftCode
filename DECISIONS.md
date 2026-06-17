@@ -30,6 +30,39 @@ Entrées **antéchronologiques** (la plus récente en haut). La date au format `
 
 ---
 
+## 2026-06-17 — Mixins SCSS partagés (`shared/styles/`) pour le CSS dupliqué
+
+- **Contexte** : du SCSS strictement identique était recopié entre features —
+  blocs des pages de détail (`.code`, socle `.example`, section de contenu,
+  liste), badge de rôle et carte `.practice` (aperçu des bonnes pratiques ↔
+  page-support des phases). Refactor à rendu constant, sans toucher au markup
+  ni aux tokens.
+- **Décision** : introduire un premier système de **partiels SCSS de mixins**
+  sous `frontend/src/app/shared/styles/` (`_detail.scss`, `_badge.scss`,
+  `_practice-card.scss`), importés par `@use '../../shared/styles/x' as *` dans
+  chaque composant et appelés via `@include`. Le mixin est inclus **sous le bloc
+  BEM local** (préfixe propre à la feature conservé) ; les variantes spécifiques
+  (`--avoid/--prefer`, bord coloré, `--done`) restent locales. Le mixin se
+  ré-expanse dans le scope de chaque composant → CSS émis et rendu identiques.
+- **Options écartées** : (1) des **classes utilitaires globales** dans
+  `styles.scss` (façon `.cc-stagger`) — rejeté : changerait la portée
+  (global vs styles scopés par attribut) et imposerait des ajouts de classes
+  dans les templates ; le mixin garde le scoping et un CSS byte-identique ;
+  (2) configurer `stylePreprocessorOptions.includePaths` dans `angular.json`
+  pour raccourcir les imports — rejeté : modifier la config de build pendant un
+  refactor pur, pour un gain cosmétique sur des chemins relatifs courts
+  (`../../shared/styles/…`).
+- **Point d'attention** : une déclaration placée **après** une règle imbriquée
+  issue d'un mixin déclenche la dépréciation Sass *mixed-declarations* ; placer
+  la déclaration **avant** le `@include` (cf. `.example` de design-pattern-detail).
+- **Report** : l'item « chrome des hubs » (`.hero`, header, grille — items D-G
+  de l'audit, partie F) est **différé** : il porte sur les mêmes fichiers qu'une
+  feature « confettis » en cours (non commitée) et le `.hero` n'y est plus
+  identique d'un hub à l'autre. À reprendre sur un arbre propre une fois les
+  confettis intégrés.
+- **Trace** : branche `refactor/extract-shared-frontend` — commits `c63baba`
+  (détail), `141e93c` (badge), `9d954cb` (carte pratique).
+
 ## 2026-06-17 — Factorisation des pages de détail (nav séquentielle + utils)
 
 - **Contexte** : les 4 pages de détail (SOLID, Design Patterns, Claude Code,

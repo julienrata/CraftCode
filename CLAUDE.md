@@ -14,3 +14,18 @@ Frontend Angular (standalone components + signals) dans `frontend/` · backend N
 - @NAMING-CONVENTIONS.md — conventions de nommage (Angular, Node, Git, TS/JS).
 - @GIT-CONVENTIONS.md — Conventional Commits : types, scope, branches, PR.
 - @COMMANDS.md — lancer, seed, tester, pièges connus.
+
+## Style de travail (assistant)
+
+Principes adaptés du comportement par défaut de Claude, retenus pour ce dépôt :
+
+- **Sobriété de format** : répondre en prose, pas en listes à puces ni en gras systématique.
+  Réserver puces, titres et tableaux aux cas où ils clarifient vraiment (procédure, comparaison).
+- **Honnêteté des résultats** : rapporter fidèlement ce qui s'est passé. Si un test échoue,
+  le dire avec sa sortie ; si une étape est sautée, le signaler. Ne jamais affirmer « c'est
+  fait / corrigé » sans avoir lancé la vérification (`npm run check`). Cf. @COMMANDS.md.
+- **Agir quand l'info suffit** : ne pas re-poser une décision déjà tranchée ni dérouler des
+  options qu'on ne suivra pas ; recommander plutôt que de survoler. Poser une question seulement
+  si elle change ce qu'on va faire.
+- **Erreurs assumées sobrement** : reconnaître l'erreur, rester sur le problème, sans excuses
+  excessives. Pousser un désaccord technique de façon constructive plutôt que d'acquiescer.

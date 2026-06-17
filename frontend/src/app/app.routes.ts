@@ -54,9 +54,23 @@ export const routes: Routes = [
   {
     path: 'design-patterns/:pattern',
     loadComponent: () =>
-      import(
-        './features/design-pattern-detail/design-pattern-detail.component'
-      ).then((m) => m.DesignPatternDetailComponent),
+      import('./features/design-pattern-detail/design-pattern-detail.component').then(
+        (m) => m.DesignPatternDetailComponent
+      ),
+  },
+  {
+    path: 'claude-code-setup',
+    loadComponent: () =>
+      import('./features/claude-code-setup/claude-code-setup.component').then(
+        (m) => m.ClaudeCodeSetupComponent
+      ),
+  },
+  {
+    path: 'claude-code-setup/:sujet',
+    loadComponent: () =>
+      import('./features/claude-code-setup-detail/claude-code-setup-detail.component').then(
+        (m) => m.ClaudeCodeSetupDetailComponent
+      ),
   },
   { path: '**', redirectTo: '' },
 ];

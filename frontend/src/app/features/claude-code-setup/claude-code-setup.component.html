@@ -1,0 +1,47 @@
+<app-breadcrumb [items]="breadcrumb" />
+
+<div class="cc-setup-header">
+  <h1>Mettre en place Claude Code</h1>
+  <p class="subtitle">
+    Quatre briques pour installer Claude Code dans un projet : les fichiers
+    markdown qui le cadrent, les hooks qui automatisent, les slash-commands &
+    skills qui capitalisent, et la configuration qui ouvre l'accès aux outils.
+  </p>
+</div>
+
+<!-- Hero : le ton et le « pourquoi » -->
+<section class="hero">
+  <p class="hero__lead">
+    Bien configuré, Claude Code connaît ton projet, respecte tes conventions et
+    automatise le répétitif.
+  </p>
+  <p class="hero__body">
+    Choisis un sujet ci-dessous pour le découvrir en détail : à quoi il sert,
+    pourquoi il compte, des exemples concrets et commentés, et comment le mettre
+    en place. Un kit de démarrage réutilisable accompagne ces pages dans le
+    dépôt (dossier claude-code-starter-kit).
+  </p>
+</section>
+
+<!-- Hub : une carte cliquable par sujet -->
+<ul class="topics">
+  @for (topic of topics; track topic.slug) {
+    <li>
+      <a class="topic-card" [routerLink]="['/claude-code-setup', topic.slug]">
+        <mat-card appearance="outlined" class="topic-card__inner">
+          <mat-card-content>
+            <mat-icon class="topic-card__icon" aria-hidden="true">{{
+              topic.icon
+            }}</mat-icon>
+            <h2 class="topic-card__title">{{ topic.titre }}</h2>
+            <p class="topic-card__accroche">{{ topic.accroche }}</p>
+            <span class="topic-card__cta">
+              Découvrir le sujet
+              <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+            </span>
+          </mat-card-content>
+        </mat-card>
+      </a>
+    </li>
+  }
+</ul>

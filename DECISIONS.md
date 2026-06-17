@@ -30,6 +30,45 @@ Entrées **antéchronologiques** (la plus récente en haut). La date au format `
 
 ---
 
+## 2026-06-17 — Porte de vérification (hook Stop) avant clôture
+
+- **Contexte** : le principe « ne jamais affirmer 'c'est fait' sans avoir lancé
+  `npm run check` » reposait uniquement sur la vigilance de l'assistant. Le hook
+  `summarize-change.mjs` rend les changements visibles, mais rien ne garantit
+  qu'ils ont été vérifiés.
+- **Décision** : un hook `Stop` `verify-gate.mjs` qui, en fin de tour, repère
+  dans le transcript les éditions de code (`frontend/`/`backend/`) postérieures au
+  dernier `npm run check` et **bloque la clôture** (`decision: "block"`) tant
+  qu'il en reste, en renvoyant la commande exacte à lancer. Garde anti-boucle via
+  `stop_hook_active` ; toute erreur du hook ⇒ `exit 0` (ne bloque jamais le
+  travail). Version générique ajoutée au `claude-code-starter-kit/`.
+- **Options écartées** : un simple rappel non bloquant (rejeté — repose encore sur
+  la vigilance, ce que l'idée vise à supprimer) ; détecter l'affirmation « c'est
+  fait » en langage naturel (rejeté — non fiable, on gate sur un signal objectif :
+  édition de code sans check postérieur).
+- **Pourquoi** : faire respecter par l'outil la porte qualité (= la CI), pendant
+  `Stop` du résumé `PostToolUse` — l'un montre, l'autre vérifie.
+- **Trace** : branche `main` (session du 2026-06-17).
+
+## 2026-06-17 — Outil « Mettre en place Claude Code » + kit de démarrage
+
+- **Contexte** : besoin de documenter, dans l'app elle-même, comment installer
+  Claude Code dans un projet (fichiers markdown, hooks, slash-commands & skills,
+  settings.json & MCP), et de fournir un point de départ réutilisable hors de
+  CraftCode.
+- **Décision** : (1) un nouvel outil pédagogique `claude-code-setup` (hub +
+  détail, 4 sujets) suivant ADD-A-TOOL.md à la lettre, contenu statique dans
+  `core/data/` ; (2) un kit versionné `claude-code-starter-kit/` à la racine,
+  généralisé depuis le setup réel de CraftCode (hooks, commandes `/brief` et
+  `/add-module`, CLAUDE.md squelette, settings.json avec placeholder MCP par ENV).
+- **Options écartées** : servir le contenu pédagogique via l'API/seed (rejeté —
+  le contenu enseigné reste statique côté front, seul le registre Tool passe par
+  la base, cf. STATE-AND-DATA.md) ; lier le kit aux chemins de CraftCode (rejeté
+  au profit d'un kit autoportant et générique).
+- **Pourquoi** : rendre la mise en place de Claude Code apprenable dans l'app et
+  rejouable sur tout projet, sans secret ni dépendance au dépôt CraftCode.
+- **Trace** : branche `main` (session du 2026-06-17).
+
 ## 2026-06-17 — Journal de décisions + résumé automatique des changements
 
 - **Contexte** : les décisions prises en session avec Claude Code partaient trop vite,

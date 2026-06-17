@@ -1,3 +1,5 @@
+@use '../../shared/styles/badge' as *;
+
 :host {
   display: block;
   max-width: 960px;
@@ -98,35 +100,7 @@
 }
 
 /* Badge de rôle — texte + teinte (jamais la couleur seule) */
-.badge {
-  display: inline-block;
-  padding: var(--cc-space-1) var(--cc-space-3);
-  border-radius: var(--cc-radius-pill);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-
-  &--equipe {
-    background: var(--cc-role-equipe-tint);
-    color: var(--cc-role-equipe);
-  }
-
-  &--auteur {
-    background: var(--cc-role-auteur-tint);
-    color: var(--cc-role-auteur);
-  }
-
-  &--relecteur {
-    background: var(--cc-role-relecteur-tint);
-    color: var(--cc-role-relecteur);
-  }
-
-  &--mixte {
-    background: var(--cc-role-mixte-tint);
-    color: var(--cc-role-mixte);
-  }
-}
+@include role-badge;
 
 /* Lien vers la page-support */
 .support-link {

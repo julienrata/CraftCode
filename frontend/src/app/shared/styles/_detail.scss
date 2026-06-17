@@ -1,0 +1,68 @@
+// Mixins partagés par les pages de détail (SOLID, Design Patterns, Claude Code).
+// Reproduisent à l'identique les blocs qui y étaient dupliqués — simple
+// centralisation, aucun changement de rendu. À inclure sous le bloc BEM local
+// (`.sd-block`, `.dpd-list`…), le préfixe restant propre à chaque feature.
+
+/* Section de contenu : titre à icône + corps. */
+@mixin detail-block {
+  margin-bottom: var(--cc-space-6);
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: var(--cc-space-2);
+    margin: 0 0 var(--cc-space-3);
+    font-size: clamp(1.2rem, 2.8vw, 1.4rem);
+    font-weight: 600;
+    color: var(--cc-ink);
+
+    mat-icon {
+      color: var(--cc-accent);
+    }
+  }
+}
+
+/* Liste à puces de contenu (pourquoi, conseils, cas d'usage…). */
+@mixin detail-list {
+  margin: 0;
+  padding-left: var(--cc-space-5);
+  max-width: var(--cc-measure);
+  color: var(--cc-ink-soft);
+  line-height: var(--cc-lh-body);
+
+  li {
+    margin-bottom: var(--cc-space-2);
+  }
+}
+
+/* Carte d'exemple : socle commun (rayon + légende). Les variantes
+   (--avoid/--prefer, bord coloré) restent locales à chaque feature. */
+@mixin detail-example {
+  border-radius: var(--cc-radius-md);
+
+  &__legende {
+    margin: 0 0 var(--cc-space-3);
+    color: var(--cc-ink-soft);
+    font-size: var(--cc-fs-small);
+    font-style: italic;
+  }
+}
+
+/* Bloc de code illustratif (`<pre class="code">`). Définit le sélecteur. */
+@mixin detail-code {
+  .code {
+    margin: 0;
+    padding: var(--cc-space-4);
+    background: var(--cc-surface-2);
+    border: 1px solid var(--cc-border);
+    border-radius: var(--cc-radius-sm);
+    color: var(--cc-ink);
+    font-family:
+      'SFMono-Regular', 'Cascadia Code', Consolas, 'Courier New', monospace;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    overflow-x: auto;
+    white-space: pre;
+    tab-size: 2;
+  }
+}

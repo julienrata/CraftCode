@@ -1,3 +1,5 @@
+@use '../../shared/styles/detail' as *;
+
 :host {
   display: block;
   max-width: 960px;
@@ -45,33 +47,11 @@
 }
 
 .ccd-block {
-  margin-bottom: var(--cc-space-6);
-
-  &__title {
-    display: flex;
-    align-items: center;
-    gap: var(--cc-space-2);
-    margin: 0 0 var(--cc-space-3);
-    font-size: clamp(1.2rem, 2.8vw, 1.4rem);
-    font-weight: 600;
-    color: var(--cc-ink);
-
-    mat-icon {
-      color: var(--cc-accent);
-    }
-  }
+  @include detail-block;
 }
 
 .ccd-list {
-  margin: 0;
-  padding-left: var(--cc-space-5);
-  max-width: var(--cc-measure);
-  color: var(--cc-ink-soft);
-  line-height: var(--cc-lh-body);
-
-  li {
-    margin-bottom: var(--cc-space-2);
-  }
+  @include detail-list;
 }
 
 /* Exemples concrets avec blocs de code */
@@ -81,28 +61,7 @@
 }
 
 .example {
-  border-radius: var(--cc-radius-md);
-
-  &__legende {
-    margin: 0 0 var(--cc-space-3);
-    color: var(--cc-ink-soft);
-    font-size: var(--cc-fs-small);
-    font-style: italic;
-  }
+  @include detail-example;
 }
 
-.code {
-  margin: 0;
-  padding: var(--cc-space-4);
-  background: var(--cc-surface-2);
-  border: 1px solid var(--cc-border);
-  border-radius: var(--cc-radius-sm);
-  color: var(--cc-ink);
-  font-family:
-    'SFMono-Regular', 'Cascadia Code', Consolas, 'Courier New', monospace;
-  font-size: 0.82rem;
-  line-height: 1.55;
-  overflow-x: auto;
-  white-space: pre;
-  tab-size: 2;
-}
+@include detail-code;

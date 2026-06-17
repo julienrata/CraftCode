@@ -27,7 +27,7 @@
 @for (group of groups; track group.categorie) {
   <section class="dp-group">
     <h2 class="dp-group__title">{{ group.categorie }}s</h2>
-    <ul class="patterns">
+    <ul class="patterns cc-stagger">
       @for (pattern of group.patterns; track pattern.slug) {
         <li>
           <a
@@ -37,7 +37,9 @@
             <mat-card appearance="outlined" class="pattern-card__inner">
               <mat-card-content>
                 <div class="pattern-card__top">
-                  <mat-icon class="pattern-card__icon" aria-hidden="true">{{ pattern.icon }}</mat-icon>
+                  <mat-icon class="pattern-card__icon" aria-hidden="true">{{
+                    pattern.icon
+                  }}</mat-icon>
                   <span class="pattern-card__cat">{{ pattern.categorie }}</span>
                 </div>
                 <h3 class="pattern-card__title">{{ pattern.nom }}</h3>

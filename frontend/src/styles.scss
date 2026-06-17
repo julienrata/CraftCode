@@ -1,42 +1,58 @@
 /* =============================================================================
-   CraftCode — Design system (atelier / artisan du code)
+   CraftCode — Design system (festif / convivial / vivant)
    Source unique de vérité : tokens CSS + thème Material personnalisé + bases.
    Aucune couleur en dur ailleurs : tout passe par les variables --cc-* / --mat-sys-*.
+   Les seules valeurs littérales (#hex, px, rgba, ms, cubic-bezier) vivent ICI,
+   dans la définition des tokens. Partout ailleurs : var(--cc-*).
    ========================================================================== */
 
 :root {
-  /* ---- Couleurs de marque (établi / cuivre / papier) -------------------- */
-  --cc-bg: #FAF9F7;
-  --cc-surface: #FFFFFF;
-  --cc-surface-2: #F4F1EC;
-  --cc-border: #E7E2DB;
-  --cc-ink: #1C1917;
-  --cc-ink-soft: #57534E;
+  /* ---- Couleurs de marque (fête : framboise, violet, mandarine) --------- */
+  --cc-bg: #fff8fb; /* blanc chaud légèrement rosé */
+  --cc-surface: #ffffff;
+  --cc-surface-2: #fdeff6; /* surface festive douce */
+  --cc-border: #f3dce8;
+  --cc-ink: #2a1422; /* prune très sombre — contraste AA élevé */
+  --cc-ink-soft: #6b5160;
 
-  --cc-primary: #B45309;
-  --cc-primary-hover: #92400E;
-  --cc-on-primary: #FFFFFF;
+  --cc-primary: #d81b60; /* framboise vive — blanc dessus = AA (~4.6:1) */
+  --cc-primary-hover: #ad1457;
+  --cc-on-primary: #ffffff;
 
-  --cc-accent: #0F766E;        /* patine — actions secondaires */
-  --cc-success: #15803D;
-  --cc-warn: #B91C1C;
+  --cc-accent: #7c3aed; /* violet festif — actions secondaires */
+  --cc-success: #16a34a;
+  --cc-warn: #dc2626;
 
   /* Teintes douces dérivées (conteneurs, surfaces actives) */
-  --cc-primary-tint: #FBEEDD;  /* fond cuivre très clair */
-  --cc-accent-tint: #E2F1EF;   /* fond patine très clair */
+  --cc-primary-tint: #fce1ec; /* fond framboise très clair */
+  --cc-accent-tint: #ece3fd; /* fond violet très clair */
+  --cc-festive-tint: #ffebd6; /* fond mandarine très clair (dégradés joyeux) */
+
+  /* Dégradés festifs (composés à partir des tokens de couleur) */
+  --cc-gradient-festive: linear-gradient(
+    120deg,
+    var(--cc-primary),
+    var(--cc-accent)
+  );
+  --cc-gradient-soft: linear-gradient(
+    120deg,
+    var(--cc-primary-tint),
+    var(--cc-festive-tint) 55%,
+    var(--cc-accent-tint)
+  );
 
   /* ---- Badges de rôle (texte + teinte, jamais la couleur seule) --------- */
-  --cc-role-equipe: #475569;       /* ardoise */
-  --cc-role-auteur: #B45309;
-  --cc-role-relecteur: #0F766E;
-  --cc-role-mixte: #7C3AED;
-  --cc-role-equipe-tint: #EEF1F5;
-  --cc-role-auteur-tint: #FBEEDD;
-  --cc-role-relecteur-tint: #E2F1EF;
-  --cc-role-mixte-tint: #F1ECFC;
+  --cc-role-equipe: #475569; /* ardoise (neutre, distinct) */
+  --cc-role-auteur: #c2410c; /* mandarine */
+  --cc-role-relecteur: #0d9488; /* turquoise */
+  --cc-role-mixte: #7c3aed; /* violet */
+  --cc-role-equipe-tint: #eef1f5;
+  --cc-role-auteur-tint: #ffe7d6;
+  --cc-role-relecteur-tint: #d7f4ef;
+  --cc-role-mixte-tint: #ece3fd;
 
   /* ---- Typographie ------------------------------------------------------ */
-  --cc-font: Roboto, "Helvetica Neue", system-ui, -apple-system, sans-serif;
+  --cc-font: Roboto, 'Helvetica Neue', system-ui, -apple-system, sans-serif;
   --cc-fs-h1: clamp(1.8rem, 4vw, 2.6rem);
   --cc-fs-h2: 1.4rem;
   --cc-fs-h3: 1.1rem;
@@ -44,7 +60,7 @@
   --cc-fs-small: 0.875rem;
   --cc-lh-body: 1.6;
   --cc-lh-tight: 1.3;
-  --cc-measure: 70ch;          /* largeur de lecture max pour la prose */
+  --cc-measure: 70ch; /* largeur de lecture max pour la prose */
 
   /* ---- Espacement (base 4px) ------------------------------------------- */
   --cc-space-1: 4px;
@@ -56,17 +72,28 @@
   --cc-space-7: 48px;
   --cc-space-8: 64px;
 
-  /* ---- Rayons ----------------------------------------------------------- */
-  --cc-radius-sm: 8px;
-  --cc-radius-md: 14px;
-  --cc-radius-lg: 22px;
+  /* ---- Rayons (généreux, joyeux) --------------------------------------- */
+  --cc-radius-sm: 10px;
+  --cc-radius-md: 18px;
+  --cc-radius-lg: 28px;
+  --cc-radius-pill: 999px;
 
-  /* ---- Ombres (douces, diffuses) --------------------------------------- */
-  --cc-shadow-1: 0 1px 2px rgba(28, 25, 23, 0.05), 0 2px 8px rgba(28, 25, 23, 0.06);
-  --cc-shadow-2: 0 10px 30px rgba(28, 25, 23, 0.12);
+  /* ---- Ombres (expressives, teintées de marque) ----------------------- */
+  --cc-shadow-1:
+    0 1px 2px rgba(42, 20, 34, 0.06), 0 4px 14px rgba(42, 20, 34, 0.08);
+  --cc-shadow-2: 0 16px 40px rgba(216, 27, 96, 0.22); /* lift framboise */
+  --cc-shadow-glow: 0 10px 30px rgba(124, 58, 237, 0.28); /* halo violet */
 
   /* ---- Mouvement -------------------------------------------------------- */
-  --cc-transition: 160ms ease;
+  --cc-dur-fast: 130ms;
+  --cc-dur: 220ms;
+  --cc-dur-slow: 460ms;
+  --cc-ease-smooth: cubic-bezier(0.16, 1, 0.3, 1); /* sortie fluide */
+  --cc-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); /* rebond joueur */
+  --cc-transition: var(--cc-dur) var(--cc-ease-smooth); /* composite défaut */
+  --cc-transition-fast: var(--cc-dur-fast) var(--cc-ease-smooth);
+  --cc-transition-bounce: var(--cc-dur) var(--cc-ease-bounce);
+  --cc-stagger: 70ms; /* pas de décalage pour l'apparition en cascade */
 
   /* ---- Layout ----------------------------------------------------------- */
   --cc-toolbar-h: 64px;
@@ -80,20 +107,20 @@
   --mat-sys-primary: var(--cc-primary);
   --mat-sys-on-primary: var(--cc-on-primary);
   --mat-sys-primary-container: var(--cc-primary-tint);
-  --mat-sys-on-primary-container: #6B3000;
+  --mat-sys-on-primary-container: #6a0033;
 
   --mat-sys-secondary: var(--cc-accent);
-  --mat-sys-on-secondary: #FFFFFF;
+  --mat-sys-on-secondary: #ffffff;
   --mat-sys-secondary-container: var(--cc-accent-tint);
-  --mat-sys-on-secondary-container: #06403B;
+  --mat-sys-on-secondary-container: #3a0b7a;
 
   --mat-sys-tertiary: var(--cc-accent);
-  --mat-sys-on-tertiary: #FFFFFF;
+  --mat-sys-on-tertiary: #ffffff;
   --mat-sys-tertiary-container: var(--cc-accent-tint);
-  --mat-sys-on-tertiary-container: #06403B;
+  --mat-sys-on-tertiary-container: #06403b;
 
   --mat-sys-error: var(--cc-warn);
-  --mat-sys-on-error: #FFFFFF;
+  --mat-sys-on-error: #ffffff;
 
   --mat-sys-background: var(--cc-bg);
   --mat-sys-on-background: var(--cc-ink);
@@ -162,12 +189,54 @@ body {
   top: var(--cc-space-3);
 }
 
-/* Respect des préférences de mouvement réduit. */
+/* ====================== Animations réutilisables ========================
+   Keyframes globales (non scopées) consommées par les composants via
+   `animation: cc-rise …`. Neutralisées par le bloc reduced-motion ci-dessous. */
+
+/* Apparition en fondu + translation (montage des grilles, héros). */
+@keyframes cc-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Petit « pop » joueur (avatars, pastilles). */
+@keyframes cc-pop {
+  from {
+    transform: scale(0.6);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Apparition en cascade : à poser sur un conteneur de grille (`cc-stagger`).
+   Chaque enfant direct monte en fondu avec un décalage croissant. Centralisé
+   ici (plutôt que dupliqué par composant) pour rester sobre côté budgets SCSS.
+   Couvre jusqu'à 12 éléments (la plus grande famille de patrons GoF). */
+.cc-stagger > * {
+  animation: cc-rise var(--cc-dur-slow) var(--cc-ease-smooth) both;
+}
+
+@for $i from 1 through 12 {
+  .cc-stagger > *:nth-child(#{$i}) {
+    animation-delay: calc(var(--cc-stagger) * #{$i - 1});
+  }
+}
+
+/* Respect des préférences de mouvement réduit — neutralise TOUTE animation
+   (y compris les nouvelles : apparitions, rebonds, décalages en cascade). */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;

@@ -5,7 +5,9 @@
     <div class="pg-header__title">
       <mat-icon class="pg-header__icon">{{ phase.icon }}</mat-icon>
       <h1>{{ phase.titre }}</h1>
-      <span class="badge" [class]="'badge--' + phase.roleKey">{{ phase.role }}</span>
+      <span class="badge" [class]="'badge--' + phase.roleKey">{{
+        phase.role
+      }}</span>
     </div>
     <p class="subtitle">
       Lisez chaque pratique et cochez ce qui est fait — votre progression est
@@ -16,17 +18,27 @@
   <!-- Compteur de progression -->
   <div class="progress-panel">
     <div class="progress-panel__top">
-      <span class="progress-panel__count">{{ checkedCount() }}/{{ total() }} cochés</span>
-      <button mat-button color="warn" (click)="reset()" [disabled]="checkedCount() === 0">
+      <span class="progress-panel__count"
+        >{{ checkedCount() }}/{{ total() }} cochés</span
+      >
+      <button
+        mat-button
+        color="warn"
+        (click)="reset()"
+        [disabled]="checkedCount() === 0"
+      >
         <mat-icon>restart_alt</mat-icon>
         Réinitialiser
       </button>
     </div>
-    <mat-progress-bar mode="determinate" [value]="progress()"></mat-progress-bar>
+    <mat-progress-bar
+      mode="determinate"
+      [value]="progress()"
+    ></mat-progress-bar>
   </div>
 
   <!-- Pratiques : lecture + case à cocher -->
-  <div class="cards">
+  <div class="cards cc-stagger">
     @for (pratique of phase.pratiques; track pratique.id) {
       <mat-card
         class="practice"

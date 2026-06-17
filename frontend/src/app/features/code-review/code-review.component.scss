@@ -3,6 +3,8 @@
   max-width: 860px;
   margin: 0 auto;
   padding: var(--cc-space-5) var(--cc-space-4) var(--cc-space-8);
+  // Entrée de page : apparition fluide à chaque navigation.
+  animation: cc-rise var(--cc-dur) var(--cc-ease-smooth) both;
 }
 
 .cr-header {
@@ -51,6 +53,15 @@
 .category-card {
   border-radius: var(--cc-radius-md);
   margin-bottom: var(--cc-space-4);
+  transition:
+    transform var(--cc-transition-bounce),
+    box-shadow var(--cc-transition);
+
+  &:hover,
+  &:focus-within {
+    transform: translateY(-3px);
+    box-shadow: var(--cc-shadow-2);
+  }
 }
 
 .check-item {

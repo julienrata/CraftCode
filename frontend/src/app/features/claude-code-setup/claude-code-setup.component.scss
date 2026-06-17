@@ -3,6 +3,8 @@
   max-width: 960px;
   margin: 0 auto;
   padding: var(--cc-space-5) var(--cc-space-4) var(--cc-space-8);
+  // Entrée de page : apparition fluide à chaque navigation.
+  animation: cc-rise var(--cc-dur) var(--cc-ease-smooth) both;
 }
 
 .cc-setup-header {
@@ -24,13 +26,9 @@
   }
 }
 
-/* Hero — donne le ton (établi cuivré) */
+/* Hero — donne le ton festif (framboise → violet) */
 .hero {
-  background: linear-gradient(
-    135deg,
-    var(--cc-primary) 0%,
-    var(--cc-primary-hover) 100%
-  );
+  background: var(--cc-gradient-festive);
   color: var(--cc-on-primary);
   border-radius: var(--cc-radius-lg);
   padding: var(--cc-space-6);
@@ -60,6 +58,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--cc-space-4);
+  // Apparition en cascade : utilitaire `.cc-stagger` (styles.scss), posé sur
+  // ce conteneur dans le template (cible les `<li>`, enfants directs).
 }
 
 .topic-card {
@@ -73,21 +73,28 @@
     height: 100%;
     border-radius: var(--cc-radius-md);
     transition:
-      transform var(--cc-transition),
+      transform var(--cc-transition-bounce),
       box-shadow var(--cc-transition),
       border-color var(--cc-transition);
   }
 
   &:hover &__inner,
   &:focus-visible &__inner {
-    transform: translateY(-2px);
-    box-shadow: var(--cc-shadow-1);
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: var(--cc-shadow-2);
     border-color: var(--cc-primary);
   }
 
   &__icon {
     color: var(--cc-accent);
     margin-bottom: var(--cc-space-3);
+    transition: transform var(--cc-transition-bounce);
+  }
+
+  // L'icône du sujet « pétille » au survol.
+  &:hover &__icon,
+  &:focus-visible &__icon {
+    transform: rotate(-6deg) scale(1.12);
   }
 
   &__title {

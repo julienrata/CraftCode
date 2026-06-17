@@ -30,6 +30,32 @@ Entrées **antéchronologiques** (la plus récente en haut). La date au format `
 
 ---
 
+## 2026-06-17 — Pivot de la direction artistique vers une DA festive et animée
+
+- **Contexte** : la DA « atelier / artisan » (papier, cuivre, teal, sobre,
+  quasi sans animation) devait laisser place à une ambiance joviale, festive,
+  plus moderne et vivante, sur tout le front.
+- **Décision** : refonte des tokens `--cc-*` dans `styles.scss` (palette
+  framboise `#D81B60` / violet `#7C3AED` / mandarine, dégradés `--cc-gradient-*`,
+  rayons plus généreux + `--cc-radius-pill`, ombres expressives teintées +
+  `--cc-shadow-glow`, tokens de mouvement `--cc-dur-*` / `--cc-ease-*` /
+  `--cc-transition-*` / `--cc-stagger`, keyframes globales `cc-rise`/`cc-pop`).
+  Animations CSS pures : entrée de page sur chaque feature, micro-interactions
+  rebondies au survol, et apparition en cascade des grilles via une **utilitaire
+  globale `.cc-stagger`** (classe posée sur le conteneur, anime les enfants
+  directs).
+- **Options écartées** : (1) dupliquer la cascade par composant via `@for`
+  (rejeté — faisait dépasser le budget SCSS de `phase-guide` ET inopérant sur
+  les hubs en `<ul>/<li>`, la carte n'étant pas enfant direct de la grille) ;
+  (2) une librairie d'animation tierce (rejeté — aucune dépendance nouvelle,
+  CSS/Angular suffit) ; (3) texte de héros en dégradé `background-clip` (rejeté —
+  risque de contraste, on garde un texte plein).
+- **Pourquoi** : moderniser l'app sans casser l'architecture par tokens ni
+  l'accessibilité — `prefers-reduced-motion` neutralise toutes les nouvelles
+  animations, contrastes vérifiés AA, `:focus-visible` et indices non chromatiques
+  préservés. La centralisation de la cascade évite la duplication et les budgets.
+- **Trace** : branche `feat/festive-design-system` (session du 2026-06-17).
+
 ## 2026-06-17 — Commandes /retro (feedback persisté) et /sync (amorce de contexte)
 
 - **Contexte** : deux frictions récurrentes dans la collaboration dev ↔ Claude —

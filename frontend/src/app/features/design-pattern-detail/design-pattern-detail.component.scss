@@ -3,6 +3,8 @@
   max-width: 960px;
   margin: 0 auto;
   padding: var(--cc-space-5) var(--cc-space-4) var(--cc-space-8);
+  // Entrée de page : apparition fluide à chaque navigation.
+  animation: cc-rise var(--cc-dur) var(--cc-ease-smooth) both;
 }
 
 .dpd-header {
@@ -19,8 +21,9 @@
     height: 3rem;
     flex-shrink: 0;
     border-radius: var(--cc-radius-md);
-    background: var(--cc-primary);
+    background: var(--cc-gradient-festive);
     color: var(--cc-on-primary);
+    box-shadow: var(--cc-shadow-glow);
   }
 
   h1 {
@@ -104,7 +107,8 @@
   border: 1px solid var(--cc-border);
   border-radius: var(--cc-radius-sm);
   color: var(--cc-ink);
-  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "Courier New", monospace;
+  font-family:
+    'SFMono-Regular', 'Cascadia Code', Consolas, 'Courier New', monospace;
   font-size: 0.82rem;
   line-height: 1.55;
   overflow-x: auto;
@@ -135,12 +139,16 @@
   background: var(--cc-surface);
   color: var(--cc-ink);
   text-decoration: none;
-  transition: border-color var(--cc-transition), box-shadow var(--cc-transition);
+  transition:
+    border-color var(--cc-transition),
+    box-shadow var(--cc-transition),
+    transform var(--cc-transition-bounce);
 
   &:hover,
   &:focus-visible {
     border-color: var(--cc-primary);
-    box-shadow: var(--cc-shadow-1);
+    box-shadow: var(--cc-shadow-2);
+    transform: translateY(-3px);
   }
 
   &--next {

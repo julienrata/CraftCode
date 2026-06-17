@@ -30,6 +30,27 @@ Entrées **antéchronologiques** (la plus récente en haut). La date au format `
 
 ---
 
+## 2026-06-17 — Commandes /retro (feedback persisté) et /sync (amorce de contexte)
+
+- **Contexte** : deux frictions récurrentes dans la collaboration dev ↔ Claude —
+  les corrections de méthode se perdent d'une session à l'autre (à répéter), et
+  chaque début de session impose de ré-expliquer où en est le projet.
+- **Décision** : deux slash-commands sur le modèle de `/brief`. (1) `/retro` :
+  en fin de session, formaliser ce qui a marché/coincé en 1–3 entrées `feedback`
+  de la mémoire fichier (`MEMORY.md` + `memory/`), avec validation et anti-doublon.
+  (2) `/sync` : en début de session, lire `DECISIONS.md` + l'état git + le WIP et
+  restituer en ≤ 3 lignes l'état présent et l'intention présumée, à valider, sans
+  rien modifier. Versions génériques ajoutées au `claude-code-starter-kit/`.
+- **Options écartées** : pour `/retro`, un `FEEDBACK.md` versionné dans le dépôt
+  (rejeté — le feedback de collaboration relève de la mémoire, pas du code, et la
+  mémoire existe déjà pour ça). Pour `/sync`, un hook `SessionStart` automatique
+  (rejeté pour l'instant — coûteux/bruyant à chaque démarrage ; une commande
+  explicite garde la main sur le moment et le coût).
+- **Pourquoi** : faire durer les corrections (moins de répétition) et supprimer le
+  coût de ré-amorçage en début de session — compléments de `/brief` (cadre la
+  tâche à venir) et du hook `verify-gate` (vérifie la clôture).
+- **Trace** : branche `main` (session du 2026-06-17).
+
 ## 2026-06-17 — Porte de vérification (hook Stop) avant clôture
 
 - **Contexte** : le principe « ne jamais affirmer 'c'est fait' sans avoir lancé

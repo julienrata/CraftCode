@@ -2,25 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(npm run lint)",
-      "Bash(npm run lint:fix)",
-      "Bash(npm run format)",
-      "Bash(npm run format:check)",
       "Bash(npm test)",
-      "Bash(npm run test)",
       "Bash(npm run build)",
-      "Bash(npm run seed)",
-      "Bash(npx ng lint)",
-      "Bash(npx ng build*)",
-      "Bash(npx prettier*)",
-      "Bash(npx eslint*)",
-      "Bash(npx vitest*)",
       "Bash(git status*)",
       "Bash(git diff*)",
-      "Bash(git log*)",
-      "Bash(git add*)",
-      "Bash(git branch*)",
-      "Bash(curl -s http://localhost:3000/*)",
-      "Bash(curl -s http://localhost:4200/*)"
+      "Bash(git log*)"
     ]
   },
   "hooks": {
@@ -49,5 +35,14 @@
         ]
       }
     ]
+  },
+  "mcpServers": {
+    "database": {
+      "command": "npx",
+      "args": ["-y", "@some/mcp-server"],
+      "env": {
+        "DATABASE_URI": "${DATABASE_URI}"
+      }
+    }
   }
 }

@@ -1,0 +1,123 @@
+:host {
+  display: block;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--cc-space-5) var(--cc-space-4) var(--cc-space-8);
+}
+
+.cc-setup-header {
+  margin-bottom: var(--cc-space-5);
+
+  h1 {
+    margin: 0;
+    color: var(--cc-ink);
+    font-size: clamp(1.6rem, 4vw, 2.25rem);
+    font-weight: 700;
+    line-height: var(--cc-lh-tight);
+  }
+
+  .subtitle {
+    margin: var(--cc-space-2) 0 0;
+    max-width: var(--cc-measure);
+    color: var(--cc-ink-soft);
+    line-height: var(--cc-lh-body);
+  }
+}
+
+/* Hero — donne le ton (établi cuivré) */
+.hero {
+  background: linear-gradient(
+    135deg,
+    var(--cc-primary) 0%,
+    var(--cc-primary-hover) 100%
+  );
+  color: var(--cc-on-primary);
+  border-radius: var(--cc-radius-lg);
+  padding: var(--cc-space-6);
+  margin-bottom: var(--cc-space-6);
+  box-shadow: var(--cc-shadow-2);
+
+  &__lead {
+    margin: 0 0 var(--cc-space-3);
+    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+    font-weight: 600;
+    line-height: var(--cc-lh-tight);
+  }
+
+  &__body {
+    margin: 0;
+    max-width: var(--cc-measure);
+    color: var(--cc-on-primary);
+    line-height: var(--cc-lh-body);
+  }
+}
+
+/* Grille de cartes-sujets (le hub) */
+.topics {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--cc-space-4);
+}
+
+.topic-card {
+  display: block;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--cc-radius-md);
+
+  &__inner {
+    height: 100%;
+    border-radius: var(--cc-radius-md);
+    transition:
+      transform var(--cc-transition),
+      box-shadow var(--cc-transition),
+      border-color var(--cc-transition);
+  }
+
+  &:hover &__inner,
+  &:focus-visible &__inner {
+    transform: translateY(-2px);
+    box-shadow: var(--cc-shadow-1);
+    border-color: var(--cc-primary);
+  }
+
+  &__icon {
+    color: var(--cc-accent);
+    margin-bottom: var(--cc-space-3);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--cc-fs-h3);
+    font-weight: 600;
+    color: var(--cc-ink);
+    line-height: var(--cc-lh-tight);
+  }
+
+  &__accroche {
+    margin: var(--cc-space-3) 0 0;
+    color: var(--cc-ink-soft);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--cc-space-1);
+    margin-top: var(--cc-space-4);
+    color: var(--cc-primary);
+    font-size: var(--cc-fs-small);
+    font-weight: 600;
+
+    mat-icon {
+      font-size: 1.1rem;
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+  }
+}

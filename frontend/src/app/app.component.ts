@@ -33,5 +33,6 @@ export class AppComponent {
     { label: 'Bonnes pratiques', link: '/bonnes-pratiques' },
     { label: 'Principes SOLID', link: '/solid' },
     { label: 'Design Patterns', link: '/design-patterns' },
+    { label: 'Claude Code', link: '/claude-code-setup' },
   ];
 }

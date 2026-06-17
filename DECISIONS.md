@@ -30,6 +30,32 @@ Entrées **antéchronologiques** (la plus récente en haut). La date au format `
 
 ---
 
+## 2026-06-17 — Toolbar (shell) alignée sur la DA festive
+
+- **Contexte** : la toolbar gardait l'esthétique « atelier » sobre (fond
+  `--cc-surface` plat, filet `--cc-border`, texte sombre) et détonnait avec le
+  reste du front déjà migré vers la DA festive (héros et cartes à dégradé).
+- **Décision** : restyler le shell sans toucher au routing ni à `navLinks`.
+  Barre en `--cc-gradient-festive` + `--cc-shadow-2`, texte clair
+  (`--cc-on-primary`) ; icône de marque dans une pastille
+  (`brand__badge`, `--cc-radius-pill`, teinte `--cc-primary-tint`) ; liens de
+  nav en **pilules** (`--cc-radius-pill`) avec survol clair rebondi
+  (`--cc-transition-bounce`) ; **lien actif** = pilule pleine claire à texte
+  framboise (contraste fort, indice non chromatique via le fond), en plus de
+  `aria-current`. Seul changement de markup : un `<span class="brand__badge">`
+  autour de l'icône. `min-height` tactile tokenisé (`44px` → `var(--cc-space-7)`,
+  48px ≥ 44px).
+- **Options écartées** : (1) garder le fond clair en ne colorant que les liens
+  (rejeté — l'écart « atelier » venait surtout du fond plat) ; (2) ajouter un
+  garde `prefers-reduced-motion` local (rejeté — le bloc global de `styles.scss`
+  neutralise déjà toutes les transitions avec `!important`, doublon inutile) ;
+  (3) souligner le lien actif comme avant (`inset box-shadow`) plutôt qu'une
+  pilule pleine (rejeté — moins lisible et moins festif sur le dégradé).
+- **Pourquoi** : cohérence visuelle du shell avec les pages migrées, sans
+  refactor ni dépendance, accessibilité préservée (focus-visible, aria-current,
+  contraste AA texte clair sur dégradé, reduced-motion via le global).
+- **Trace** : `npm run check` vert (lint + build).
+
 ## 2026-06-17 — Mixins SCSS partagés (`shared/styles/`) pour le CSS dupliqué
 
 - **Contexte** : du SCSS strictement identique était recopié entre features —

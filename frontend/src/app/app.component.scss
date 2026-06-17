@@ -1,8 +1,9 @@
 .app-toolbar {
-  // Barre « papier » sobre, ancrée par un filet cuivre. Hauteur fluide pour
-  // laisser la navigation se replier proprement sur petit écran (pas de
-  // hamburger). L'encapsulation du composant rend ces règles prioritaires sur
-  // la hauteur fixe de Material (.mat-toolbar-single-row).
+  // Barre festive en dégradé de marque (framboise → violet), cohérente avec
+  // les héros à dégradé. Hauteur fluide pour laisser la navigation se replier
+  // proprement sur petit écran (pas de hamburger). L'encapsulation du composant
+  // rend ces règles prioritaires sur la hauteur fixe de Material
+  // (.mat-toolbar-single-row).
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -10,11 +11,10 @@
   height: auto;
   min-height: var(--cc-toolbar-h);
   white-space: normal;
-  padding: var(--cc-space-2) var(--cc-space-4);
-  background: var(--cc-surface);
-  color: var(--cc-ink);
-  border-bottom: 1px solid var(--cc-border);
-  box-shadow: var(--cc-shadow-1);
+  padding: var(--cc-space-2) var(--cc-space-5);
+  background: var(--cc-gradient-festive);
+  color: var(--cc-on-primary);
+  box-shadow: var(--cc-shadow-2);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -25,21 +25,28 @@
   align-items: center;
   gap: var(--cc-space-2);
   flex-shrink: 0;
-  color: var(--cc-ink);
+  color: var(--cc-on-primary);
   text-decoration: none;
   font-weight: 700;
   font-size: 1.25rem;
   letter-spacing: -0.01em;
   padding: var(--cc-space-1) var(--cc-space-2);
-  border-radius: var(--cc-radius-sm);
+  border-radius: var(--cc-radius-pill);
 
-  mat-icon {
+  // Pastille translucide claire autour de l'icône — petit signe festif.
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--cc-space-1);
+    border-radius: var(--cc-radius-pill);
+    background: var(--cc-primary-tint);
     color: var(--cc-primary);
     transition: transform var(--cc-transition-bounce);
   }
 
   // L'outil « pétille » quand on survole la marque.
-  &:hover mat-icon {
+  &:hover &__badge {
     transform: rotate(-12deg) scale(1.12);
   }
 }
@@ -54,10 +61,10 @@
 .app-nav__link {
   display: inline-flex;
   align-items: center;
-  min-height: 44px; // cible tactile
-  padding: var(--cc-space-2) var(--cc-space-3);
-  border-radius: var(--cc-radius-sm);
-  color: var(--cc-ink-soft);
+  min-height: var(--cc-space-7); // cible tactile (48px ≥ 44px)
+  padding: var(--cc-space-2) var(--cc-space-4);
+  border-radius: var(--cc-radius-pill);
+  color: var(--cc-on-primary);
   text-decoration: none;
   font-size: var(--cc-fs-small);
   font-weight: 600;
@@ -68,34 +75,26 @@
     box-shadow var(--cc-transition),
     transform var(--cc-transition-bounce);
 
+  // Survol : pastille claire translucide + léger lift rebondi.
   &:hover {
-    background: var(--cc-surface-2);
-    color: var(--cc-ink);
-    transform: translateY(-1px);
-  }
-
-  // Page courante : texte + fond + soulignement (indices non basés sur la
-  // seule couleur), en plus de aria-current="page". Texte foncé (primary-hover)
-  // pour garder le contraste AA sur la teinte festive.
-  &--active {
-    color: var(--cc-primary-hover);
     background: var(--cc-primary-tint);
-    box-shadow: inset 0 -2px 0 var(--cc-primary);
+    color: var(--cc-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--cc-shadow-1);
+  }
+
+  // Page courante : pilule pleine claire à texte framboise — distincte et
+  // lisible sur le dégradé (indice non basé sur la seule couleur via le
+  // contraste de fond), en plus de aria-current="page".
+  &--active {
+    color: var(--cc-primary);
+    background: var(--cc-on-primary);
+    box-shadow: var(--cc-shadow-1);
   }
 }
 
-.tagline {
-  margin-left: auto;
-  font-size: var(--cc-fs-small);
-  color: var(--cc-ink-soft);
-}
-
-// Petit écran : la tagline se masque et la navigation occupe sa propre ligne.
+// Petit écran : la navigation occupe sa propre ligne.
 @media (max-width: 480px) {
-  .tagline {
-    display: none;
-  }
-
   .app-nav {
     width: 100%;
   }

@@ -1,4 +1,8 @@
-<mat-card class="tool-card" [class.tool-card--disabled]="!tool.available" appearance="outlined">
+<mat-card
+  class="tool-card"
+  [class.tool-card--disabled]="!tool.available"
+  appearance="outlined"
+>
   <mat-card-header>
     <div mat-card-avatar class="tool-card__avatar">
       <mat-icon>{{ tool.icon }}</mat-icon>
@@ -15,9 +19,14 @@
 
   <mat-card-actions align="end">
     @if (tool.available) {
-      <a mat-flat-button color="primary" [routerLink]="tool.route">
+      <a
+        mat-stroked-button
+        color="primary"
+        class="tool-card__cta"
+        [routerLink]="tool.route"
+      >
         Ouvrir
-        <mat-icon>arrow_forward</mat-icon>
+        <mat-icon class="tool-card__cta-arrow">arrow_forward</mat-icon>
       </a>
     } @else {
       <button mat-button disabled>Bientôt</button>

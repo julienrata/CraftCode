@@ -31,6 +31,17 @@
   transform: translateY(-2px) scale(1);
 }
 
+// CTA « Ouvrir » : la flèche glisse vers la droite quand la carte est
+// survolée/focalisée — micro-interaction festive, comportement inchangé.
+.tool-card__cta-arrow {
+  transition: transform var(--cc-transition-bounce);
+}
+
+.tool-card:not(.tool-card--disabled):hover .tool-card__cta-arrow,
+.tool-card:not(.tool-card--disabled):focus-within .tool-card__cta-arrow {
+  transform: translateX(var(--cc-space-1));
+}
+
 .tool-card--disabled {
   opacity: 0.7;
 }

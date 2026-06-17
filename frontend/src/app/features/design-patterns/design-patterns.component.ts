@@ -12,6 +12,7 @@ import {
   BreadcrumbComponent,
   BreadcrumbItem,
 } from '../../shared/components/breadcrumb/breadcrumb.component';
+import { ConfettiComponent } from '../../shared/components/confetti/confetti.component';
 
 /** Une famille de patrons et ses cartes, pour l'affichage groupé du hub. */
 interface PatternGroup {
@@ -36,7 +37,13 @@ const CATEGORY_ORDER: DesignPatternCategory[] = [
  */
 @Component({
   selector: 'app-design-patterns',
-  imports: [RouterLink, BreadcrumbComponent, MatCardModule, MatIconModule],
+  imports: [
+    RouterLink,
+    BreadcrumbComponent,
+    ConfettiComponent,
+    MatCardModule,
+    MatIconModule,
+  ],
   templateUrl: './design-patterns.component.html',
   styleUrl: './design-patterns.component.scss',
 })

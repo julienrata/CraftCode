@@ -1,4 +1,5 @@
 @use '../../shared/styles/badge' as *;
+@use '../../shared/styles/practice-card' as *;
 
 :host {
   display: block;
@@ -117,63 +118,5 @@
 }
 
 .practice {
-  border-radius: var(--cc-radius-md);
-  transition:
-    transform var(--cc-transition-bounce),
-    box-shadow var(--cc-transition);
-
-  &:hover,
-  &:focus-within {
-    transform: translateY(-6px) scale(1.015);
-    box-shadow: var(--cc-shadow-2);
-  }
-
-  &__top {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--cc-space-2);
-    margin-bottom: var(--cc-space-2);
-  }
-
-  &__icon {
-    color: var(--cc-primary);
-    flex-shrink: 0;
-  }
-
-  &__title {
-    margin: 0;
-    font-size: var(--cc-fs-h3);
-    font-weight: 600;
-    color: var(--cc-ink);
-    line-height: var(--cc-lh-tight);
-  }
-
-  &__accroche {
-    margin: 0 0 var(--cc-space-3);
-    color: var(--cc-ink-soft);
-    font-size: 0.9rem;
-    line-height: 1.5;
-  }
-
-  &__why {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--cc-space-2);
-    margin: 0;
-    padding-top: var(--cc-space-3);
-    border-top: 1px solid var(--cc-border);
-    color: var(--cc-ink-soft);
-    font-size: var(--cc-fs-small);
-    line-height: 1.45;
-    font-style: italic;
-  }
-
-  &__why-icon {
-    font-size: 1.05rem;
-    width: 1.05rem;
-    height: 1.05rem;
-    color: var(--cc-accent);
-    flex-shrink: 0;
-    margin-top: 0.05rem;
-  }
+  @include practice-card;
 }

@@ -14,6 +14,7 @@ Frontend Angular (standalone components + signals) dans `frontend/` · backend N
 - @NAMING-CONVENTIONS.md — conventions de nommage (Angular, Node, Git, TS/JS).
 - @GIT-CONVENTIONS.md — Conventional Commits : types, scope, branches, PR.
 - @COMMANDS.md — lancer, seed, tester, pièges connus.
+- @DECISIONS.md — journal des décisions structurantes (le *pourquoi* et les options écartées, hors du diff).
 
 ## Style de travail (assistant)
 
@@ -29,3 +30,16 @@ Principes adaptés du comportement par défaut de Claude, retenus pour ce dépô
   si elle change ce qu'on va faire.
 - **Erreurs assumées sobrement** : reconnaître l'erreur, rester sur le problème, sans excuses
   excessives. Pousser un désaccord technique de façon constructive plutôt que d'acquiescer.
+
+## Décisions & traçabilité
+
+Deux mécanismes aident le développeur à décider moins « à chaud » et à voir ce qui change :
+
+- **Journal des décisions** (@DECISIONS.md) : à chaque décision structurante — architecture,
+  nouvelle dépendance, schéma de base, convention transverse, renommage/suppression de
+  fichier ou de route — ajouter une entrée datée (contexte, décision, options écartées,
+  pourquoi). Le diff montre le *quoi* ; le journal garde le *pourquoi* et les alternatives.
+  Pas pour les modifications de routine.
+- **Résumé automatique des changements** : le hook `.claude/hooks/summarize-change.mjs`
+  (PostToolUse) affiche après chaque `Edit`/`Write`/`MultiEdit` un résumé +/− du fichier
+  touché. Visibilité sans dépendre de la vigilance de l'assistant — rien à faire.

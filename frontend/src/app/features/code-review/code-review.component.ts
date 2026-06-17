@@ -15,6 +15,10 @@ import {
   BreadcrumbComponent,
   BreadcrumbItem,
 } from '../../shared/components/breadcrumb/breadcrumb.component';
+import {
+  loadCheckedSet,
+  persistCheckedSet,
+} from '../../core/utils/checklist-storage';
 
 /** Clé de persistance de l'état coché dans le localStorage. */
 const STORAGE_KEY = 'craftcode.code-review.checked';
@@ -54,7 +58,9 @@ export class CodeReviewComponent implements OnInit {
   readonly groups = signal<ChecklistGroup[]>([]);
 
   /** Ensemble des ids d'items cochés (source de vérité de l'UI). */
-  private readonly checkedIds = signal<Set<string>>(this.loadChecked());
+  private readonly checkedIds = signal<Set<string>>(
+    loadCheckedSet(STORAGE_KEY)
+  );
 
   /** Nombre total d'items, tous groupes confondus. */
   readonly total = computed(() =>
@@ -93,14 +99,14 @@ export class CodeReviewComponent implements OnInit {
     if (next.has(id)) next.delete(id);
     else next.add(id);
     this.checkedIds.set(next);
-    this.persist(next);
+    persistCheckedSet(STORAGE_KEY, next);
   }
 
   /** Décoche tout (réinitialise la checklist). */
   reset(): void {
     const empty = new Set<string>();
     this.checkedIds.set(empty);
-    this.persist(empty);
+    persistCheckedSet(STORAGE_KEY, empty);
   }
 
   /** Regroupe les items par catégorie en préservant l'ordre d'arrivée. */
@@ -115,18 +121,5 @@ export class CodeReviewComponent implements OnInit {
       category,
       items: groupItems,
     }));
-  }
-
-  private loadChecked(): Set<string> {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? new Set<string>(JSON.parse(raw)) : new Set<string>();
-    } catch {
-      return new Set<string>();
-    }
-  }
-
-  private persist(ids: Set<string>): void {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(ids)));
   }
 }

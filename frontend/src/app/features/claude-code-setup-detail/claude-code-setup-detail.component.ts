@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -10,15 +10,14 @@ import {
   BreadcrumbComponent,
   BreadcrumbItem,
 } from '../../shared/components/breadcrumb/breadcrumb.component';
+import {
+  SequentialNavComponent,
+  SequentialNavItem,
+} from '../../shared/components/sequential-nav/sequential-nav.component';
+import { neighborSlug } from '../../core/utils/sequential-nav';
 
 /** Ordre du parcours — dérivé de l'unique source CLAUDE_CODE_TOPICS. */
 const TOPIC_SLUGS = CLAUDE_CODE_TOPICS.map((t) => t.slug);
-
-/** Un sujet voisin pour le parcours séquentiel (précédent/suivant). */
-interface TopicLink {
-  slug: string;
-  titre: string;
-}
 
 /**
  * Page de détail d'un sujet de mise en place de Claude Code : définition,
@@ -31,7 +30,12 @@ interface TopicLink {
  */
 @Component({
   selector: 'app-claude-code-setup-detail',
-  imports: [RouterLink, BreadcrumbComponent, MatCardModule, MatIconModule],
+  imports: [
+    BreadcrumbComponent,
+    SequentialNavComponent,
+    MatCardModule,
+    MatIconModule,
+  ],
   templateUrl: './claude-code-setup-detail.component.html',
   styleUrl: './claude-code-setup-detail.component.scss',
 })
@@ -53,8 +57,12 @@ export class ClaudeCodeSetupDetailComponent {
   ]);
 
   /** Sujet précédent / suivant du parcours (undefined aux extrémités). */
-  readonly prev = computed<TopicLink | undefined>(() => this.neighbor(-1));
-  readonly next = computed<TopicLink | undefined>(() => this.neighbor(1));
+  readonly prev = computed<SequentialNavItem | undefined>(() =>
+    this.neighbor(-1, 'précédent')
+  );
+  readonly next = computed<SequentialNavItem | undefined>(() =>
+    this.neighbor(1, 'suivant')
+  );
 
   constructor() {
     this.route.paramMap.pipe(takeUntilDestroyed()).subscribe((params) => {
@@ -70,12 +78,10 @@ export class ClaudeCodeSetupDetailComponent {
   }
 
   /** Sujet voisin dans TOPIC_SLUGS (delta -1 = précédent, +1 = suivant). */
-  private neighbor(delta: number): TopicLink | undefined {
-    const index = TOPIC_SLUGS.indexOf(this.slug());
-    if (index === -1) return undefined;
-    const slug = TOPIC_SLUGS[index + delta];
+  private neighbor(delta: number, sens: string): SequentialNavItem | undefined {
+    const slug = neighborSlug(TOPIC_SLUGS, this.slug(), delta);
     if (!slug) return undefined;
     const titre = CLAUDE_CODE_TOPICS.find((t) => t.slug === slug)?.titre ?? '';
-    return { slug, titre };
+    return { slug, label: titre, ariaLabel: `Sujet ${sens} : ${titre}` };
   }
 }

@@ -1,0 +1,36 @@
+// Badge de rôle (équipe / auteur / relecteur / mixte), partagé par l'aperçu des
+// bonnes pratiques et la page-support des phases. Information portée par le texte
+// ET la teinte — jamais la couleur seule (accessibilité). Définit le sélecteur
+// `.badge` ; à inclure à la racine du composant.
+
+@mixin role-badge {
+  .badge {
+    display: inline-block;
+    padding: var(--cc-space-1) var(--cc-space-3);
+    border-radius: var(--cc-radius-pill);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+
+    &--equipe {
+      background: var(--cc-role-equipe-tint);
+      color: var(--cc-role-equipe);
+    }
+
+    &--auteur {
+      background: var(--cc-role-auteur-tint);
+      color: var(--cc-role-auteur);
+    }
+
+    &--relecteur {
+      background: var(--cc-role-relecteur-tint);
+      color: var(--cc-role-relecteur);
+    }
+
+    &--mixte {
+      background: var(--cc-role-mixte-tint);
+      color: var(--cc-role-mixte);
+    }
+  }
+}

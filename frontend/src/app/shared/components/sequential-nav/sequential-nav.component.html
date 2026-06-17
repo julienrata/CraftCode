@@ -1,0 +1,28 @@
+<nav class="seq-nav" [attr.aria-label]="navLabel">
+  @if (prev; as p) {
+    <a
+      class="seq-nav__link seq-nav__link--prev"
+      [routerLink]="[routeBase, p.slug]"
+      [attr.aria-label]="p.ariaLabel"
+    >
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+      <span class="seq-nav__meta">
+        <span class="seq-nav__dir">Précédent</span>
+        <span class="seq-nav__titre">{{ p.label }}</span>
+      </span>
+    </a>
+  }
+  @if (next; as n) {
+    <a
+      class="seq-nav__link seq-nav__link--next"
+      [routerLink]="[routeBase, n.slug]"
+      [attr.aria-label]="n.ariaLabel"
+    >
+      <span class="seq-nav__meta">
+        <span class="seq-nav__dir">Suivant</span>
+        <span class="seq-nav__titre">{{ n.label }}</span>
+      </span>
+      <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+    </a>
+  }
+</nav>

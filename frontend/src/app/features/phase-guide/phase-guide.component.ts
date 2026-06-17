@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,6 +13,15 @@ import {
   BreadcrumbComponent,
   BreadcrumbItem,
 } from '../../shared/components/breadcrumb/breadcrumb.component';
+import {
+  SequentialNavComponent,
+  SequentialNavItem,
+} from '../../shared/components/sequential-nav/sequential-nav.component';
+import {
+  loadCheckedSet,
+  persistCheckedSet,
+} from '../../core/utils/checklist-storage';
+import { neighborSlug } from '../../core/utils/sequential-nav';
 
 /** Table de correspondance slug de phase → `numero` de section. */
 const SLUG_TO_NUMERO: Record<string, number> = {
@@ -30,12 +39,6 @@ const SLUG_TO_NUMERO: Record<string, number> = {
  */
 const PHASE_SLUGS = Object.keys(SLUG_TO_NUMERO);
 
-/** Une phase voisine pour le parcours séquentiel (précédent/suivant). */
-interface PhaseLink {
-  slug: string;
-  titre: string;
-}
-
 /**
  * Page-support d'une phase de revue : lecture (titre + accroche + « pourquoi »)
  * ET case à cocher par pratique, avec progression sauvegardée par phase.
@@ -47,8 +50,8 @@ interface PhaseLink {
 @Component({
   selector: 'app-phase-guide',
   imports: [
-    RouterLink,
     BreadcrumbComponent,
+    SequentialNavComponent,
     MatCheckboxModule,
     MatCardModule,
     MatIconModule,
@@ -91,8 +94,12 @@ export class PhaseGuideComponent {
   ]);
 
   /** Phase précédente / suivante du parcours (undefined aux extrémités). */
-  readonly prev = computed<PhaseLink | undefined>(() => this.neighbor(-1));
-  readonly next = computed<PhaseLink | undefined>(() => this.neighbor(1));
+  readonly prev = computed<SequentialNavItem | undefined>(() =>
+    this.neighbor(-1, 'précédente')
+  );
+  readonly next = computed<SequentialNavItem | undefined>(() =>
+    this.neighbor(1, 'suivante')
+  );
 
   constructor() {
     // Réactif au paramètre `:phase` : couvre le chargement initial ET la
@@ -108,7 +115,7 @@ export class PhaseGuideComponent {
       }
       this.slug.set(slug);
       this.section.set(section);
-      this.checkedIds.set(this.loadChecked(slug));
+      this.checkedIds.set(loadCheckedSet(this.storageKey(slug)));
     });
   }
 
@@ -122,26 +129,24 @@ export class PhaseGuideComponent {
     if (next.has(id)) next.delete(id);
     else next.add(id);
     this.checkedIds.set(next);
-    this.persist(this.slug(), next);
+    persistCheckedSet(this.storageKey(this.slug()), next);
   }
 
   /** Décoche tout (réinitialise la phase). */
   reset(): void {
     const empty = new Set<string>();
     this.checkedIds.set(empty);
-    this.persist(this.slug(), empty);
+    persistCheckedSet(this.storageKey(this.slug()), empty);
   }
 
   /** Phase voisine dans PHASE_SLUGS (delta -1 = précédent, +1 = suivant). */
-  private neighbor(delta: number): PhaseLink | undefined {
-    const index = PHASE_SLUGS.indexOf(this.slug());
-    if (index === -1) return undefined;
-    const slug = PHASE_SLUGS[index + delta];
+  private neighbor(delta: number, sens: string): SequentialNavItem | undefined {
+    const slug = neighborSlug(PHASE_SLUGS, this.slug(), delta);
     if (!slug) return undefined;
     const numero = SLUG_TO_NUMERO[slug];
     const titre =
       CODE_REVIEW_SECTIONS.find((s) => s.numero === numero)?.titre ?? '';
-    return { slug, titre };
+    return { slug, label: titre, ariaLabel: `Phase ${sens} : ${titre}` };
   }
 
   private resolveSection(slug: string): Section | undefined {
@@ -152,18 +157,5 @@ export class PhaseGuideComponent {
 
   private storageKey(slug: string): string {
     return `craftcode.phase.${slug}.checked`;
-  }
-
-  private loadChecked(slug: string): Set<string> {
-    try {
-      const raw = localStorage.getItem(this.storageKey(slug));
-      return raw ? new Set<string>(JSON.parse(raw)) : new Set<string>();
-    } catch {
-      return new Set<string>();
-    }
-  }
-
-  private persist(slug: string, ids: Set<string>): void {
-    localStorage.setItem(this.storageKey(slug), JSON.stringify(Array.from(ids)));
   }
 }

@@ -30,6 +30,68 @@ Entrées **antéchronologiques** (la plus récente en haut). La date au format `
 
 ---
 
+## 2026-06-17 — Mixins SCSS partagés (`shared/styles/`) pour le CSS dupliqué
+
+- **Contexte** : du SCSS strictement identique était recopié entre features —
+  blocs des pages de détail (`.code`, socle `.example`, section de contenu,
+  liste), badge de rôle et carte `.practice` (aperçu des bonnes pratiques ↔
+  page-support des phases). Refactor à rendu constant, sans toucher au markup
+  ni aux tokens.
+- **Décision** : introduire un premier système de **partiels SCSS de mixins**
+  sous `frontend/src/app/shared/styles/` (`_detail.scss`, `_badge.scss`,
+  `_practice-card.scss`), importés par `@use '../../shared/styles/x' as *` dans
+  chaque composant et appelés via `@include`. Le mixin est inclus **sous le bloc
+  BEM local** (préfixe propre à la feature conservé) ; les variantes spécifiques
+  (`--avoid/--prefer`, bord coloré, `--done`) restent locales. Le mixin se
+  ré-expanse dans le scope de chaque composant → CSS émis et rendu identiques.
+- **Options écartées** : (1) des **classes utilitaires globales** dans
+  `styles.scss` (façon `.cc-stagger`) — rejeté : changerait la portée
+  (global vs styles scopés par attribut) et imposerait des ajouts de classes
+  dans les templates ; le mixin garde le scoping et un CSS byte-identique ;
+  (2) configurer `stylePreprocessorOptions.includePaths` dans `angular.json`
+  pour raccourcir les imports — rejeté : modifier la config de build pendant un
+  refactor pur, pour un gain cosmétique sur des chemins relatifs courts
+  (`../../shared/styles/…`).
+- **Point d'attention** : une déclaration placée **après** une règle imbriquée
+  issue d'un mixin déclenche la dépréciation Sass *mixed-declarations* ; placer
+  la déclaration **avant** le `@include` (cf. `.example` de design-pattern-detail).
+- **Report** : l'item « chrome des hubs » (`.hero`, header, grille — items D-G
+  de l'audit, partie F) est **différé** : il porte sur les mêmes fichiers qu'une
+  feature « confettis » en cours (non commitée) et le `.hero` n'y est plus
+  identique d'un hub à l'autre. À reprendre sur un arbre propre une fois les
+  confettis intégrés.
+- **Trace** : branche `refactor/extract-shared-frontend` — commits `c63baba`
+  (détail), `141e93c` (badge), `9d954cb` (carte pratique).
+
+## 2026-06-17 — Factorisation des pages de détail (nav séquentielle + utils)
+
+- **Contexte** : les 4 pages de détail (SOLID, Design Patterns, Claude Code,
+  phases de revue) dupliquaient à l'identique le bloc de navigation
+  précédent/suivant (template + ~70 lignes de SCSS chacune) et l'arithmétique
+  de résolution du voisin ; la persistance localStorage d'un `Set` coché était
+  répétée entre la checklist Code Review et les phases de revue. Refactor à
+  comportement constant, sans changement d'UI, de route, de slug ni de clé.
+- **Décision** : trois extractions ciblées. (A) un composant présentationnel
+  partagé `shared/components/sequential-nav` (`SequentialNavComponent`, piloté
+  par `prev`/`next`/`routeBase`/`navLabel`, item `{slug,label,ariaLabel}`) ;
+  (B) `core/utils/checklist-storage.ts` (`loadCheckedSet`/`persistCheckedSet`,
+  clé fournie par l'appelant) ; (C) `core/utils/sequential-nav.ts`
+  (`neighborSlug`). Création du dossier `core/utils/` pour les fonctions pures.
+- **Options écartées** : (1) un composant de détail générique unique (rejeté —
+  les templates de contenu divergent trop, ç'aurait été une abstraction « au cas
+  où ») ; (2) une classe de base abstraite pour la logique TS commune des détails
+  (rejeté — `inject()` + signals en classe de base peu idiomatiques ici, gain
+  faible vs. l'util pur) ; (3) factoriser aussi le « chrome » SCSS des hubs
+  (`.hero`, header, grilles) et les badges de rôle (différé — partage de SCSS
+  scopé via global/mixins plus exposé aux régressions visuelles, à traiter
+  séparément avec vérification de rendu).
+- **Pourquoi** : supprimer ~390 lignes dupliquées (nav) + la logique localStorage
+  et d'index répétée, sans refactor du cœur ni dépendance nouvelle ; le rendu et
+  l'accessibilité (aria-labels, cible tactile, `:focus-visible`) restent
+  identiques. `npm run check` (lint + build) vert après chaque extraction.
+- **Trace** : branche `refactor/extract-shared-frontend` — commits `b68e7da`
+  (A), `98ee1df` (B), `f05eb67` (C).
+
 ## 2026-06-17 — Pivot de la direction artistique vers une DA festive et animée
 
 - **Contexte** : la DA « atelier / artisan » (papier, cuivre, teal, sobre,

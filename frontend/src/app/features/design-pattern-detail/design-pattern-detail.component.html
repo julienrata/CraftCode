@@ -72,32 +72,10 @@
   </section>
 
   <!-- Parcours séquentiel : patron précédent / suivant -->
-  <nav class="pattern-nav" aria-label="Navigation entre les patrons">
-    @if (prev(); as pr) {
-      <a
-        class="pattern-nav__link pattern-nav__link--prev"
-        [routerLink]="['/design-patterns', pr.slug]"
-        [attr.aria-label]="'Patron précédent : ' + pr.nom"
-      >
-        <mat-icon aria-hidden="true">arrow_back</mat-icon>
-        <span class="pattern-nav__meta">
-          <span class="pattern-nav__dir">Précédent</span>
-          <span class="pattern-nav__titre">{{ pr.nom }}</span>
-        </span>
-      </a>
-    }
-    @if (next(); as nx) {
-      <a
-        class="pattern-nav__link pattern-nav__link--next"
-        [routerLink]="['/design-patterns', nx.slug]"
-        [attr.aria-label]="'Patron suivant : ' + nx.nom"
-      >
-        <span class="pattern-nav__meta">
-          <span class="pattern-nav__dir">Suivant</span>
-          <span class="pattern-nav__titre">{{ nx.nom }}</span>
-        </span>
-        <mat-icon aria-hidden="true">arrow_forward</mat-icon>
-      </a>
-    }
-  </nav>
+  <app-sequential-nav
+    routeBase="/design-patterns"
+    navLabel="Navigation entre les patrons"
+    [prev]="prev()"
+    [next]="next()"
+  />
 }

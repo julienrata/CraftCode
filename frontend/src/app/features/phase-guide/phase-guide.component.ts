@@ -17,6 +17,10 @@ import {
   SequentialNavComponent,
   SequentialNavItem,
 } from '../../shared/components/sequential-nav/sequential-nav.component';
+import {
+  loadCheckedSet,
+  persistCheckedSet,
+} from '../../core/utils/checklist-storage';
 
 /** Table de correspondance slug de phase → `numero` de section. */
 const SLUG_TO_NUMERO: Record<string, number> = {
@@ -110,7 +114,7 @@ export class PhaseGuideComponent {
       }
       this.slug.set(slug);
       this.section.set(section);
-      this.checkedIds.set(this.loadChecked(slug));
+      this.checkedIds.set(loadCheckedSet(this.storageKey(slug)));
     });
   }
 
@@ -124,14 +128,14 @@ export class PhaseGuideComponent {
     if (next.has(id)) next.delete(id);
     else next.add(id);
     this.checkedIds.set(next);
-    this.persist(this.slug(), next);
+    persistCheckedSet(this.storageKey(this.slug()), next);
   }
 
   /** Décoche tout (réinitialise la phase). */
   reset(): void {
     const empty = new Set<string>();
     this.checkedIds.set(empty);
-    this.persist(this.slug(), empty);
+    persistCheckedSet(this.storageKey(this.slug()), empty);
   }
 
   /** Phase voisine dans PHASE_SLUGS (delta -1 = précédent, +1 = suivant). */
@@ -154,21 +158,5 @@ export class PhaseGuideComponent {
 
   private storageKey(slug: string): string {
     return `craftcode.phase.${slug}.checked`;
-  }
-
-  private loadChecked(slug: string): Set<string> {
-    try {
-      const raw = localStorage.getItem(this.storageKey(slug));
-      return raw ? new Set<string>(JSON.parse(raw)) : new Set<string>();
-    } catch {
-      return new Set<string>();
-    }
-  }
-
-  private persist(slug: string, ids: Set<string>): void {
-    localStorage.setItem(
-      this.storageKey(slug),
-      JSON.stringify(Array.from(ids))
-    );
   }
 }

@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -10,15 +10,13 @@ import {
   BreadcrumbComponent,
   BreadcrumbItem,
 } from '../../shared/components/breadcrumb/breadcrumb.component';
+import {
+  SequentialNavComponent,
+  SequentialNavItem,
+} from '../../shared/components/sequential-nav/sequential-nav.component';
 
 /** Ordre du parcours — dérivé de l'unique source DESIGN_PATTERNS. */
 const PATTERN_SLUGS = DESIGN_PATTERNS.map((p) => p.slug);
-
-/** Un patron voisin pour le parcours séquentiel (précédent/suivant). */
-interface PatternLink {
-  slug: string;
-  nom: string;
-}
 
 /**
  * Page de détail d'un design pattern : intention, problème, solution, exemple
@@ -31,7 +29,12 @@ interface PatternLink {
  */
 @Component({
   selector: 'app-design-pattern-detail',
-  imports: [RouterLink, BreadcrumbComponent, MatCardModule, MatIconModule],
+  imports: [
+    BreadcrumbComponent,
+    SequentialNavComponent,
+    MatCardModule,
+    MatIconModule,
+  ],
   templateUrl: './design-pattern-detail.component.html',
   styleUrl: './design-pattern-detail.component.scss',
 })
@@ -53,8 +56,12 @@ export class DesignPatternDetailComponent {
   ]);
 
   /** Patron précédent / suivant du parcours (undefined aux extrémités). */
-  readonly prev = computed<PatternLink | undefined>(() => this.neighbor(-1));
-  readonly next = computed<PatternLink | undefined>(() => this.neighbor(1));
+  readonly prev = computed<SequentialNavItem | undefined>(() =>
+    this.neighbor(-1, 'précédent')
+  );
+  readonly next = computed<SequentialNavItem | undefined>(() =>
+    this.neighbor(1, 'suivant')
+  );
 
   constructor() {
     this.route.paramMap.pipe(takeUntilDestroyed()).subscribe((params) => {
@@ -70,12 +77,12 @@ export class DesignPatternDetailComponent {
   }
 
   /** Patron voisin dans PATTERN_SLUGS (delta -1 = précédent, +1 = suivant). */
-  private neighbor(delta: number): PatternLink | undefined {
+  private neighbor(delta: number, sens: string): SequentialNavItem | undefined {
     const index = PATTERN_SLUGS.indexOf(this.slug());
     if (index === -1) return undefined;
     const slug = PATTERN_SLUGS[index + delta];
     if (!slug) return undefined;
     const nom = DESIGN_PATTERNS.find((p) => p.slug === slug)?.nom ?? '';
-    return { slug, nom };
+    return { slug, label: nom, ariaLabel: `Patron ${sens} : ${nom}` };
   }
 }

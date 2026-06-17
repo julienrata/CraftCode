@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,6 +13,10 @@ import {
   BreadcrumbComponent,
   BreadcrumbItem,
 } from '../../shared/components/breadcrumb/breadcrumb.component';
+import {
+  SequentialNavComponent,
+  SequentialNavItem,
+} from '../../shared/components/sequential-nav/sequential-nav.component';
 
 /** Table de correspondance slug de phase → `numero` de section. */
 const SLUG_TO_NUMERO: Record<string, number> = {
@@ -30,12 +34,6 @@ const SLUG_TO_NUMERO: Record<string, number> = {
  */
 const PHASE_SLUGS = Object.keys(SLUG_TO_NUMERO);
 
-/** Une phase voisine pour le parcours séquentiel (précédent/suivant). */
-interface PhaseLink {
-  slug: string;
-  titre: string;
-}
-
 /**
  * Page-support d'une phase de revue : lecture (titre + accroche + « pourquoi »)
  * ET case à cocher par pratique, avec progression sauvegardée par phase.
@@ -47,8 +45,8 @@ interface PhaseLink {
 @Component({
   selector: 'app-phase-guide',
   imports: [
-    RouterLink,
     BreadcrumbComponent,
+    SequentialNavComponent,
     MatCheckboxModule,
     MatCardModule,
     MatIconModule,
@@ -91,8 +89,12 @@ export class PhaseGuideComponent {
   ]);
 
   /** Phase précédente / suivante du parcours (undefined aux extrémités). */
-  readonly prev = computed<PhaseLink | undefined>(() => this.neighbor(-1));
-  readonly next = computed<PhaseLink | undefined>(() => this.neighbor(1));
+  readonly prev = computed<SequentialNavItem | undefined>(() =>
+    this.neighbor(-1, 'précédente')
+  );
+  readonly next = computed<SequentialNavItem | undefined>(() =>
+    this.neighbor(1, 'suivante')
+  );
 
   constructor() {
     // Réactif au paramètre `:phase` : couvre le chargement initial ET la
@@ -133,7 +135,7 @@ export class PhaseGuideComponent {
   }
 
   /** Phase voisine dans PHASE_SLUGS (delta -1 = précédent, +1 = suivant). */
-  private neighbor(delta: number): PhaseLink | undefined {
+  private neighbor(delta: number, sens: string): SequentialNavItem | undefined {
     const index = PHASE_SLUGS.indexOf(this.slug());
     if (index === -1) return undefined;
     const slug = PHASE_SLUGS[index + delta];
@@ -141,7 +143,7 @@ export class PhaseGuideComponent {
     const numero = SLUG_TO_NUMERO[slug];
     const titre =
       CODE_REVIEW_SECTIONS.find((s) => s.numero === numero)?.titre ?? '';
-    return { slug, titre };
+    return { slug, label: titre, ariaLabel: `Phase ${sens} : ${titre}` };
   }
 
   private resolveSection(slug: string): Section | undefined {
@@ -164,6 +166,9 @@ export class PhaseGuideComponent {
   }
 
   private persist(slug: string, ids: Set<string>): void {
-    localStorage.setItem(this.storageKey(slug), JSON.stringify(Array.from(ids)));
+    localStorage.setItem(
+      this.storageKey(slug),
+      JSON.stringify(Array.from(ids))
+    );
   }
 }

@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -10,15 +10,13 @@ import {
   BreadcrumbComponent,
   BreadcrumbItem,
 } from '../../shared/components/breadcrumb/breadcrumb.component';
+import {
+  SequentialNavComponent,
+  SequentialNavItem,
+} from '../../shared/components/sequential-nav/sequential-nav.component';
 
 /** Ordre du parcours — dérivé de l'unique source SOLID_PRINCIPLES. */
 const PRINCIPLE_SLUGS = SOLID_PRINCIPLES.map((p) => p.slug);
-
-/** Un principe voisin pour le parcours séquentiel (précédent/suivant). */
-interface PrincipleLink {
-  slug: string;
-  nomFr: string;
-}
 
 /**
  * Page de détail d'un principe SOLID : définition, pourquoi, exemples de code
@@ -31,7 +29,12 @@ interface PrincipleLink {
  */
 @Component({
   selector: 'app-solid-detail',
-  imports: [RouterLink, BreadcrumbComponent, MatCardModule, MatIconModule],
+  imports: [
+    BreadcrumbComponent,
+    SequentialNavComponent,
+    MatCardModule,
+    MatIconModule,
+  ],
   templateUrl: './solid-detail.component.html',
   styleUrl: './solid-detail.component.scss',
 })
@@ -53,8 +56,12 @@ export class SolidDetailComponent {
   ]);
 
   /** Principe précédent / suivant du parcours (undefined aux extrémités). */
-  readonly prev = computed<PrincipleLink | undefined>(() => this.neighbor(-1));
-  readonly next = computed<PrincipleLink | undefined>(() => this.neighbor(1));
+  readonly prev = computed<SequentialNavItem | undefined>(() =>
+    this.neighbor(-1, 'précédent')
+  );
+  readonly next = computed<SequentialNavItem | undefined>(() =>
+    this.neighbor(1, 'suivant')
+  );
 
   constructor() {
     this.route.paramMap.pipe(takeUntilDestroyed()).subscribe((params) => {
@@ -70,12 +77,12 @@ export class SolidDetailComponent {
   }
 
   /** Principe voisin dans PRINCIPLE_SLUGS (delta -1 = précédent, +1 = suivant). */
-  private neighbor(delta: number): PrincipleLink | undefined {
+  private neighbor(delta: number, sens: string): SequentialNavItem | undefined {
     const index = PRINCIPLE_SLUGS.indexOf(this.slug());
     if (index === -1) return undefined;
     const slug = PRINCIPLE_SLUGS[index + delta];
     if (!slug) return undefined;
     const nomFr = SOLID_PRINCIPLES.find((p) => p.slug === slug)?.nomFr ?? '';
-    return { slug, nomFr };
+    return { slug, label: nomFr, ariaLabel: `Principe ${sens} : ${nomFr}` };
   }
 }

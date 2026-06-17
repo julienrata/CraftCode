@@ -56,32 +56,10 @@
   </section>
 
   <!-- Parcours séquentiel : sujet précédent / suivant -->
-  <nav class="topic-nav" aria-label="Navigation entre les sujets">
-    @if (prev(); as pr) {
-      <a
-        class="topic-nav__link topic-nav__link--prev"
-        [routerLink]="['/claude-code-setup', pr.slug]"
-        [attr.aria-label]="'Sujet précédent : ' + pr.titre"
-      >
-        <mat-icon aria-hidden="true">arrow_back</mat-icon>
-        <span class="topic-nav__meta">
-          <span class="topic-nav__dir">Précédent</span>
-          <span class="topic-nav__titre">{{ pr.titre }}</span>
-        </span>
-      </a>
-    }
-    @if (next(); as nx) {
-      <a
-        class="topic-nav__link topic-nav__link--next"
-        [routerLink]="['/claude-code-setup', nx.slug]"
-        [attr.aria-label]="'Sujet suivant : ' + nx.titre"
-      >
-        <span class="topic-nav__meta">
-          <span class="topic-nav__dir">Suivant</span>
-          <span class="topic-nav__titre">{{ nx.titre }}</span>
-        </span>
-        <mat-icon aria-hidden="true">arrow_forward</mat-icon>
-      </a>
-    }
-  </nav>
+  <app-sequential-nav
+    routeBase="/claude-code-setup"
+    navLabel="Navigation entre les sujets"
+    [prev]="prev()"
+    [next]="next()"
+  />
 }

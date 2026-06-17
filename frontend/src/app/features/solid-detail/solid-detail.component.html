@@ -4,7 +4,9 @@
   <header class="sd-header">
     <span class="sd-header__letter" aria-hidden="true">{{ p.lettre }}</span>
     <div class="sd-header__title">
-      <mat-icon class="sd-header__icon" aria-hidden="true">{{ p.icon }}</mat-icon>
+      <mat-icon class="sd-header__icon" aria-hidden="true">{{
+        p.icon
+      }}</mat-icon>
       <h1>{{ p.nomFr }}</h1>
       <p class="sd-header__en">{{ p.nomEn }}</p>
     </div>
@@ -79,32 +81,10 @@
   </section>
 
   <!-- Parcours séquentiel : principe précédent / suivant -->
-  <nav class="principle-nav" aria-label="Navigation entre les principes">
-    @if (prev(); as pr) {
-      <a
-        class="principle-nav__link principle-nav__link--prev"
-        [routerLink]="['/solid', pr.slug]"
-        [attr.aria-label]="'Principe précédent : ' + pr.nomFr"
-      >
-        <mat-icon aria-hidden="true">arrow_back</mat-icon>
-        <span class="principle-nav__meta">
-          <span class="principle-nav__dir">Précédent</span>
-          <span class="principle-nav__titre">{{ pr.nomFr }}</span>
-        </span>
-      </a>
-    }
-    @if (next(); as nx) {
-      <a
-        class="principle-nav__link principle-nav__link--next"
-        [routerLink]="['/solid', nx.slug]"
-        [attr.aria-label]="'Principe suivant : ' + nx.nomFr"
-      >
-        <span class="principle-nav__meta">
-          <span class="principle-nav__dir">Suivant</span>
-          <span class="principle-nav__titre">{{ nx.nomFr }}</span>
-        </span>
-        <mat-icon aria-hidden="true">arrow_forward</mat-icon>
-      </a>
-    }
-  </nav>
+  <app-sequential-nav
+    routeBase="/solid"
+    navLabel="Navigation entre les principes"
+    [prev]="prev()"
+    [next]="next()"
+  />
 }

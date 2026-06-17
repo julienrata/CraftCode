@@ -65,32 +65,10 @@
   </div>
 
   <!-- Parcours séquentiel : phase précédente / suivante -->
-  <nav class="phase-nav" aria-label="Navigation entre les phases">
-    @if (prev(); as p) {
-      <a
-        class="phase-nav__link phase-nav__link--prev"
-        [routerLink]="['/bonnes-pratiques', p.slug]"
-        [attr.aria-label]="'Phase précédente : ' + p.titre"
-      >
-        <mat-icon aria-hidden="true">arrow_back</mat-icon>
-        <span class="phase-nav__meta">
-          <span class="phase-nav__dir">Précédent</span>
-          <span class="phase-nav__titre">{{ p.titre }}</span>
-        </span>
-      </a>
-    }
-    @if (next(); as n) {
-      <a
-        class="phase-nav__link phase-nav__link--next"
-        [routerLink]="['/bonnes-pratiques', n.slug]"
-        [attr.aria-label]="'Phase suivante : ' + n.titre"
-      >
-        <span class="phase-nav__meta">
-          <span class="phase-nav__dir">Suivant</span>
-          <span class="phase-nav__titre">{{ n.titre }}</span>
-        </span>
-        <mat-icon aria-hidden="true">arrow_forward</mat-icon>
-      </a>
-    }
-  </nav>
+  <app-sequential-nav
+    routeBase="/bonnes-pratiques"
+    navLabel="Navigation entre les phases"
+    [prev]="prev()"
+    [next]="next()"
+  />
 }

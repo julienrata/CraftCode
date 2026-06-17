@@ -21,6 +21,7 @@ import {
   loadCheckedSet,
   persistCheckedSet,
 } from '../../core/utils/checklist-storage';
+import { neighborSlug } from '../../core/utils/sequential-nav';
 
 /** Table de correspondance slug de phase → `numero` de section. */
 const SLUG_TO_NUMERO: Record<string, number> = {
@@ -140,9 +141,7 @@ export class PhaseGuideComponent {
 
   /** Phase voisine dans PHASE_SLUGS (delta -1 = précédent, +1 = suivant). */
   private neighbor(delta: number, sens: string): SequentialNavItem | undefined {
-    const index = PHASE_SLUGS.indexOf(this.slug());
-    if (index === -1) return undefined;
-    const slug = PHASE_SLUGS[index + delta];
+    const slug = neighborSlug(PHASE_SLUGS, this.slug(), delta);
     if (!slug) return undefined;
     const numero = SLUG_TO_NUMERO[slug];
     const titre =

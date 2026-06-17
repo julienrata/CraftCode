@@ -14,6 +14,7 @@ import {
   SequentialNavComponent,
   SequentialNavItem,
 } from '../../shared/components/sequential-nav/sequential-nav.component';
+import { neighborSlug } from '../../core/utils/sequential-nav';
 
 /** Ordre du parcours — dérivé de l'unique source SOLID_PRINCIPLES. */
 const PRINCIPLE_SLUGS = SOLID_PRINCIPLES.map((p) => p.slug);
@@ -78,9 +79,7 @@ export class SolidDetailComponent {
 
   /** Principe voisin dans PRINCIPLE_SLUGS (delta -1 = précédent, +1 = suivant). */
   private neighbor(delta: number, sens: string): SequentialNavItem | undefined {
-    const index = PRINCIPLE_SLUGS.indexOf(this.slug());
-    if (index === -1) return undefined;
-    const slug = PRINCIPLE_SLUGS[index + delta];
+    const slug = neighborSlug(PRINCIPLE_SLUGS, this.slug(), delta);
     if (!slug) return undefined;
     const nomFr = SOLID_PRINCIPLES.find((p) => p.slug === slug)?.nomFr ?? '';
     return { slug, label: nomFr, ariaLabel: `Principe ${sens} : ${nomFr}` };

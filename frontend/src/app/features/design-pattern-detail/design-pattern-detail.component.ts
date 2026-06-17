@@ -14,6 +14,7 @@ import {
   SequentialNavComponent,
   SequentialNavItem,
 } from '../../shared/components/sequential-nav/sequential-nav.component';
+import { neighborSlug } from '../../core/utils/sequential-nav';
 
 /** Ordre du parcours — dérivé de l'unique source DESIGN_PATTERNS. */
 const PATTERN_SLUGS = DESIGN_PATTERNS.map((p) => p.slug);
@@ -78,9 +79,7 @@ export class DesignPatternDetailComponent {
 
   /** Patron voisin dans PATTERN_SLUGS (delta -1 = précédent, +1 = suivant). */
   private neighbor(delta: number, sens: string): SequentialNavItem | undefined {
-    const index = PATTERN_SLUGS.indexOf(this.slug());
-    if (index === -1) return undefined;
-    const slug = PATTERN_SLUGS[index + delta];
+    const slug = neighborSlug(PATTERN_SLUGS, this.slug(), delta);
     if (!slug) return undefined;
     const nom = DESIGN_PATTERNS.find((p) => p.slug === slug)?.nom ?? '';
     return { slug, label: nom, ariaLabel: `Patron ${sens} : ${nom}` };

@@ -14,6 +14,7 @@ import {
   SequentialNavComponent,
   SequentialNavItem,
 } from '../../shared/components/sequential-nav/sequential-nav.component';
+import { neighborSlug } from '../../core/utils/sequential-nav';
 
 /** Ordre du parcours — dérivé de l'unique source CLAUDE_CODE_TOPICS. */
 const TOPIC_SLUGS = CLAUDE_CODE_TOPICS.map((t) => t.slug);
@@ -78,9 +79,7 @@ export class ClaudeCodeSetupDetailComponent {
 
   /** Sujet voisin dans TOPIC_SLUGS (delta -1 = précédent, +1 = suivant). */
   private neighbor(delta: number, sens: string): SequentialNavItem | undefined {
-    const index = TOPIC_SLUGS.indexOf(this.slug());
-    if (index === -1) return undefined;
-    const slug = TOPIC_SLUGS[index + delta];
+    const slug = neighborSlug(TOPIC_SLUGS, this.slug(), delta);
     if (!slug) return undefined;
     const titre = CLAUDE_CODE_TOPICS.find((t) => t.slug === slug)?.titre ?? '';
     return { slug, label: titre, ariaLabel: `Sujet ${sens} : ${titre}` };

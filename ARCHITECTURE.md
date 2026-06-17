@@ -28,7 +28,8 @@ frontend/src/app/
 └─ app.component.ts # Shell : toolbar + navLinks
 
 backend/
-├─ server.js        # Bootstrap Express, /api + /health
+├─ app.js           # App Express configurée (/api + /health), exportée → testable
+├─ server.js        # Bootstrap : connexion Mongo + écoute (importe app.js)
 ├─ config/db.js     # Connexion Mongo
 ├─ models/          # Schémas Mongoose (PascalCase singulier)
 ├─ controllers/     # Logique des endpoints (*Controller.js)

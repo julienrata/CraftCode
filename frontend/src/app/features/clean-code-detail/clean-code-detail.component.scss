@@ -1,0 +1,121 @@
+@use '../../shared/styles/detail' as *;
+
+:host {
+  display: block;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--cc-space-5) var(--cc-space-4) var(--cc-space-8);
+  // Entrée de page : apparition fluide à chaque navigation.
+  animation: cc-rise var(--cc-dur) var(--cc-ease-smooth) both;
+}
+
+.ccd-header {
+  display: flex;
+  align-items: center;
+  gap: var(--cc-space-4);
+  margin-bottom: var(--cc-space-5);
+
+  &__numero {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+    border-radius: var(--cc-radius-md);
+    background: var(--cc-gradient-festive);
+    color: var(--cc-on-primary);
+    font-size: 1.6rem;
+    font-weight: 700;
+    box-shadow: var(--cc-shadow-glow);
+  }
+
+  &__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--cc-space-2) var(--cc-space-3);
+
+    h1 {
+      margin: 0;
+      color: var(--cc-ink);
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      font-weight: 700;
+      line-height: var(--cc-lh-tight);
+    }
+  }
+
+  &__icon {
+    color: var(--cc-accent);
+  }
+
+  &__en {
+    width: 100%;
+    margin: 0;
+    color: var(--cc-ink-soft);
+    font-size: var(--cc-fs-small);
+    font-style: italic;
+  }
+}
+
+.ccd-definition {
+  margin: 0 0 var(--cc-space-6);
+  max-width: var(--cc-measure);
+  color: var(--cc-ink);
+  font-size: 1.05rem;
+  line-height: var(--cc-lh-body);
+}
+
+.ccd-block {
+  @include detail-block;
+
+  > p {
+    margin: 0;
+    max-width: var(--cc-measure);
+    color: var(--cc-ink-soft);
+    line-height: var(--cc-lh-body);
+  }
+}
+
+.ccd-list {
+  @include detail-list;
+}
+
+/* Exemples « à éviter / à préférer » avec blocs de code */
+.examples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--cc-space-4);
+}
+
+.example {
+  @include detail-example;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: var(--cc-space-2);
+    margin: 0 0 var(--cc-space-2);
+    font-size: var(--cc-fs-h3);
+    font-weight: 600;
+  }
+
+  // Indices doublés (icône + couleur de bord), jamais la couleur seule.
+  &--avoid {
+    border-left: 4px solid var(--cc-warn);
+
+    .example__title {
+      color: var(--cc-warn);
+    }
+  }
+
+  &--prefer {
+    border-left: 4px solid var(--cc-success);
+
+    .example__title {
+      color: var(--cc-success);
+    }
+  }
+}
+
+@include detail-code;

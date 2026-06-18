@@ -59,6 +59,20 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'clean-code',
+    loadComponent: () =>
+      import('./features/clean-code/clean-code.component').then(
+        (m) => m.CleanCodeComponent
+      ),
+  },
+  {
+    path: 'clean-code/:chapitre',
+    loadComponent: () =>
+      import('./features/clean-code-detail/clean-code-detail.component').then(
+        (m) => m.CleanCodeDetailComponent
+      ),
+  },
+  {
     path: 'claude-code-setup',
     loadComponent: () =>
       import('./features/claude-code-setup/claude-code-setup.component').then(

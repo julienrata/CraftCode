@@ -1,0 +1,55 @@
+<app-breadcrumb [items]="breadcrumb" />
+
+<div class="clean-code-header">
+  <h1>Clean Code</h1>
+  <p class="subtitle">
+    Huit chapitres-clés de l'ouvrage de Robert C. Martin — du nom de variable au
+    test unitaire — pour écrire un code qu'on relit sans effort et qu'on fait
+    évoluer sans peur.
+  </p>
+</div>
+
+<!-- Hero : le ton et le « pourquoi » -->
+<section class="hero">
+  <app-confetti tone="dark" />
+  <p class="hero__lead">
+    Le code propre n'est pas un luxe : c'est ce qui rend le changement bon
+    marché.
+  </p>
+  <p class="hero__body">
+    On lit le code bien plus souvent qu'on ne l'écrit. Ces principes,
+    popularisés par Robert C. Martin, guident chaque décision du quotidien —
+    nommer, découper, commenter, gérer l'erreur. Choisissez un chapitre
+    ci-dessous pour le découvrir en détail : définition, problème résolu,
+    exemples de code à éviter puis à préférer, et comment l'appliquer.
+  </p>
+</section>
+
+<!-- Hub : une carte cliquable par chapitre -->
+<ul class="chapters cc-stagger">
+  @for (principle of principles; track principle.slug) {
+    <li>
+      <a class="chapter-card" [routerLink]="['/clean-code', principle.slug]">
+        <mat-card appearance="outlined" class="chapter-card__inner">
+          <mat-card-content>
+            <div class="chapter-card__top">
+              <span class="chapter-card__numero" aria-hidden="true">{{
+                principle.numero
+              }}</span>
+              <mat-icon class="chapter-card__icon" aria-hidden="true">{{
+                principle.icon
+              }}</mat-icon>
+            </div>
+            <h2 class="chapter-card__title">{{ principle.nomFr }}</h2>
+            <p class="chapter-card__en">{{ principle.nomEn }}</p>
+            <p class="chapter-card__def">{{ principle.definition }}</p>
+            <span class="chapter-card__cta">
+              Découvrir le chapitre
+              <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+            </span>
+          </mat-card-content>
+        </mat-card>
+      </a>
+    </li>
+  }
+</ul>

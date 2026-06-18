@@ -32,6 +32,7 @@ export class AppComponent {
     { label: 'Checklist Code Review', link: '/code-review' },
     { label: 'Bonnes pratiques', link: '/bonnes-pratiques' },
     { label: 'Principes SOLID', link: '/solid' },
+    { label: 'Clean Code', link: '/clean-code' },
     { label: 'Design Patterns', link: '/design-patterns' },
     { label: 'Claude Code', link: '/claude-code-setup' },
   ];

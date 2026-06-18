@@ -1,0 +1,90 @@
+@if (principle(); as p) {
+  <app-breadcrumb [items]="breadcrumb()" />
+
+  <header class="ccd-header">
+    <span class="ccd-header__numero" aria-hidden="true">{{ p.numero }}</span>
+    <div class="ccd-header__title">
+      <mat-icon class="ccd-header__icon" aria-hidden="true">{{
+        p.icon
+      }}</mat-icon>
+      <h1>{{ p.nomFr }}</h1>
+      <p class="ccd-header__en">{{ p.nomEn }}</p>
+    </div>
+  </header>
+
+  <p class="ccd-definition">{{ p.definition }}</p>
+
+  <!-- Le problème résolu -->
+  <section class="ccd-block">
+    <h2 class="ccd-block__title">
+      <mat-icon aria-hidden="true">report_problem</mat-icon>
+      Le problème résolu
+    </h2>
+    <p>{{ p.probleme }}</p>
+  </section>
+
+  <!-- Pourquoi ce principe -->
+  <section class="ccd-block">
+    <h2 class="ccd-block__title">
+      <mat-icon aria-hidden="true">lightbulb</mat-icon>
+      Pourquoi l'appliquer
+    </h2>
+    <ul class="ccd-list">
+      @for (point of p.pourquoi; track point) {
+        <li>{{ point }}</li>
+      }
+    </ul>
+  </section>
+
+  <!-- Exemples de code à éviter / à préférer -->
+  <section class="ccd-block">
+    <h2 class="ccd-block__title">
+      <mat-icon aria-hidden="true">code</mat-icon>
+      En pratique
+    </h2>
+    <div class="examples">
+      <mat-card class="example example--avoid" appearance="outlined">
+        <mat-card-content>
+          <h3 class="example__title">
+            <mat-icon aria-hidden="true">cancel</mat-icon>
+            À éviter
+          </h3>
+          <p class="example__legende">{{ p.exempleAvant.legende }}</p>
+          <pre class="code"><code>{{ p.exempleAvant.code }}</code></pre>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="example example--prefer" appearance="outlined">
+        <mat-card-content>
+          <h3 class="example__title">
+            <mat-icon aria-hidden="true">check_circle</mat-icon>
+            À préférer
+          </h3>
+          <p class="example__legende">{{ p.exempleApres.legende }}</p>
+          <pre class="code"><code>{{ p.exempleApres.code }}</code></pre>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- Comment le respecter -->
+  <section class="ccd-block">
+    <h2 class="ccd-block__title">
+      <mat-icon aria-hidden="true">checklist</mat-icon>
+      Comment le respecter
+    </h2>
+    <ul class="ccd-list">
+      @for (conseil of p.commentRespecter; track conseil) {
+        <li>{{ conseil }}</li>
+      }
+    </ul>
+  </section>
+
+  <!-- Parcours séquentiel : chapitre précédent / suivant -->
+  <app-sequential-nav
+    routeBase="/clean-code"
+    navLabel="Navigation entre les chapitres"
+    [prev]="prev()"
+    [next]="next()"
+  />
+}

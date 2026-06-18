@@ -30,6 +30,34 @@ Entrées **antéchronologiques** (la plus récente en haut). La date au format `
 
 ---
 
+## 2026-06-18 — Ajout de l'outil pédagogique « Clean Code »
+
+- **Contexte** : enrichir le catalogue d'un outil sur les chapitres-clés de
+  *Clean Code* (Robert C. Martin), sur le même modèle que SOLID (hub + détail),
+  sans refactor du cœur.
+- **Décision** : suivre ADD-A-TOOL.md à la lettre en calquant SOLID. Nouveau
+  modèle `CleanCodePrinciple` (champs techniques anglais `slug`/`icon`, contenu
+  FR), constante statique `CLEAN_CODE_PRINCIPLES` (8 chapitres : noms, fonctions,
+  commentaires, mise en forme, gestion des erreurs, limites, classes, tests),
+  hub `/clean-code` (grille de cartes) + détail `/clean-code/:chapitre`
+  (résolution réactive du param, repli vers le hub si slug inconnu, réutilise
+  `SequentialNavComponent` et `neighborSlug`). Routes lazy, entrée `navLinks`
+  après SOLID, entrée seed `Tool` `order: 6`. Contenu pédagogique **statique
+  côté front** ; seul le registre `Tool` passe par l'API (cf. STATE-AND-DATA.md).
+- **Options écartées** : (1) réutiliser tel quel le modèle `SolidPrinciple`
+  (rejeté — le champ `lettre` est propre à l'acronyme SOLID ; on le remplace par
+  `numero` de chapitre, tout en gardant `nomEn`/`nomFr` qui restent pertinents) ;
+  (2) un composant de détail générique partagé SOLID ↔ Clean Code (rejeté — même
+  raison que la factorisation des détails du 2026-06-17 : abstraction « au cas
+  où », templates de contenu trop proches mais pas identiques) ; (3) servir le
+  contenu via l'API/seed (rejeté — le contenu enseigné reste statique).
+- **Pourquoi** : extensibilité par addition, cohérence visuelle (DA festive,
+  tokens `--cc-*`, mixins `shared/styles/detail`) et structurelle avec les outils
+  existants, sans dépendance ni refactor.
+- **Trace** : branche `feat/clean-code` — `npm run check` vert (front : lint +
+  build ; back : lint + 9 tests). Re-seed (`npm run seed`) non lancé (écrit en
+  base) — à exécuter au déploiement.
+
 ## 2026-06-17 — Toolbar (shell) alignée sur la DA festive
 
 - **Contexte** : la toolbar gardait l'esthétique « atelier » sobre (fond

@@ -54,6 +54,16 @@ const tools = [
     available: true,
     order: 5,
   },
+  {
+    slug: 'clean-code',
+    name: 'Clean Code',
+    description:
+      'Les huit chapitres-clés de Robert C. Martin — noms, fonctions, commentaires, erreurs, classes, tests — pour un code qu’on relit sans effort.',
+    icon: 'cleaning_services',
+    route: '/clean-code',
+    available: true,
+    order: 6,
+  },
 ];
 
 const checklist = [
